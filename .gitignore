@@ -25,3 +25,6 @@ hs_err_pid*
 .idea/
 out/
 *.iml
+
+# Dolphin File Manager .directory file
+*.directory
