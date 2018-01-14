@@ -26,7 +26,7 @@ Your .iml (IntelliJ project file) must look like that:
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-        <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+        <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="ittbuonarroti.rpggame" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
