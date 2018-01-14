@@ -20,7 +20,7 @@ To do that, right-click any file in the project -> Repository -> Pull (it is pre
 ### Source files are not recognized as part of the project (IntelliJ)
 
 Your .iml (IntelliJ project file) must look like that:
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
