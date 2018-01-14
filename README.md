@@ -9,3 +9,28 @@ Now you should be in *Clone Repository* window. In *Git Repository URL*, paste t
 ## How to commit and push from IntelliJ
 
 You can commit all your changes by simply pressing *Ctrl-K*, or clicking the Commit button in the upper right corner. Then you can push right-clicking any file in the project -> Repository -> Push *(Ctrl-Shift-K)*.
+
+## How to get other people's changes
+
+If other people in the meantime have made some modifications to the repository, you must **pull** them to your repo before committing and pushing.  
+To do that, right-click any file in the project -> Repository -> Pull (it is preferable if you tick the *"No commit"* option). If there are some conflicts the IDE should warn you.
+
+## Troubleshooting
+
+### Source files are not recognized as part of the project (IntelliJ)
+
+Your .iml (IntelliJ project file) must look like that:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+        <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+```
+The problem is much likely due to the missing `sourceFolder` tag. Copy that code in your .iml file and you should be ok.

@@ -1,4 +1,4 @@
-package com.ittbuonarroti.rpggame;
+package ittbuonarroti.rpggame;
 
 public class Debole
 {
