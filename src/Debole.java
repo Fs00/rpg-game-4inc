@@ -1,6 +1,6 @@
 package ittbuonarroti.rpggame;
 
-public class Debole
+public class Debole extends Personaggio
 {
     // TBD
 }
