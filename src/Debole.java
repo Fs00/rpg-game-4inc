@@ -6,4 +6,5 @@ public class Debole extends Personaggio
     {
         super(50, 0, 0, 40, 5, nome, sesso);
     }
+    // Ahimè, non può far nulla!
 }

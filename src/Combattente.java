@@ -33,11 +33,12 @@ public class Combattente extends Personaggio implements IAttaccante {
 
     /**
      * Calcolo danni (includendo il moltiplicatore)
-     * @param foe Istanza del nemico con tutti i valori.
+     * @param nemico Istanza del nemico con tutti i valori.
      * @return Il danno calcolato
      */
-    public int attacca(Personaggio foe) {
-        return -((this.getAttacco() - foe.getDifesa()) * moltiplicatoreAttacco());
+    // TODO: rivedere implementazione?
+    public int attacca(Personaggio nemico) {
+        return -((this.getAttacco() - nemico.getDifesa()) * moltiplicatoreAttacco());
     }
 
 }

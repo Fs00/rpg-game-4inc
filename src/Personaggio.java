@@ -39,7 +39,7 @@ public abstract class Personaggio
     }
 
     /**
-     * Modifica la vita del personaggio. Da overridare nelle classi derivate per mitigazione etc.
+     * Modifica la vita del personaggio. Da overridare nelle classi derivate in caso di mitigazioni particolari
      * @param valore Quantità di puntiVita da togliere (valore negativo) o da aggiungere (valore positivo)
      */
     public void modificaPuntiVita(int valore)
@@ -53,6 +53,30 @@ public abstract class Personaggio
         }
         else
             puntiVita += valore;
+    }
+
+    /**
+     * Metodo chiamato dal metodo attacca() dell'avversario, che calcola la probabilità di contrattacco per chi ne ha
+     * la possibilità e mitiga i danni con la statistica difesa
+     * @param nemico Colui che effettua l'attacco ai danni di this
+     * @param danno Il danno effettuato
+     */
+    public void riceviColpo(IAttaccante nemico, int danno)
+    {
+        boolean contrattaccoRiuscito = false;
+        if (this instanceof IAttaccante) {      // se quindi ha a disposizione il metodo contrattacca()
+            // TODO: possibilità di contrattacco
+        }
+
+        if (!contrattaccoRiuscito)      // se non è riuscito a contrattaccare, subisce il danno
+        {
+            // Mitigazione del danno attraverso la statistica difesa
+            danno -= difesa;
+            if (danno <= 0)     // il danno deve essere sempre almeno di 1
+                danno = 1;
+
+            this.modificaPuntiVita(Math.negateExact(danno));
+        }
     }
 
     public void setPuntiStamina (int puntiStamina) {
@@ -103,7 +127,7 @@ public abstract class Personaggio
         return sesso;
     }
 
-    protected void randomizzaStats(int[] stats) {
+    private void randomizzaStats(int[] stats) {
         // 1 = +; 0 = -
         //TODO FINIRE CON TUTTE LE STATISTICHE
         if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
