@@ -1,7 +1,5 @@
 package ittbuonarroti.rpggame;
 
-import java.math.*;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Personaggio
@@ -22,16 +20,6 @@ public abstract class Personaggio
     public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
         int[] miniarray = {puntiVitaTotali, puntiStaminaTotali, velocita};
         this.randomStats(miniarray);
-
-<<<<<<< HEAD
-=======
-    public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
-        this.puntiVitaTotali = puntiVitaTotali;
-        this.puntiStaminaTotali = puntiStaminaTotali;
-        puntiVita = puntiVitaTotali;
-        puntiStamina = puntiStaminaTotali;
-        this.velocita = velocita;
->>>>>>> 8b5c0a8170e8e5938ef33349411faf9d401c45ae
         this.nome = nome;
         this.sesso = sesso;
     }
@@ -103,16 +91,18 @@ public abstract class Personaggio
         return sesso;
     }
 
-<<<<<<< HEAD
-    protected void randomStats(int[] stats){
+    protected void randomStats(int[] stats) {
         // 1 = +; 0 = -
         //TODO FINIRE CON TUTTE LE STATISTICHE
-        if(ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1){
+        if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
+        {
             this.puntiVitaTotali = stats[0] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }else{
+        } else
+        {
             this.puntiVitaTotali = stats[0] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
         }
-=======
+    }
+
     @Override
     public String toString() {
         return "Personaggio: " + this.getClass().getSimpleName() +
@@ -121,6 +111,5 @@ public abstract class Personaggio
                 "\n Punti Vita: " + puntiVita + " (max " + puntiVitaTotali + ")" +
                 "\n Stamina: " + puntiStamina + " (max " + puntiStaminaTotali + ")" +
                 "\n Velocità: " + velocita;
->>>>>>> 8b5c0a8170e8e5938ef33349411faf9d401c45ae
     }
 }
