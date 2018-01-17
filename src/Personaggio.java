@@ -12,11 +12,11 @@ public abstract class Personaggio
     private char sesso;
 
 
-    public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int puntiVita, int puntiStamina, int velocita, String nome, char sesso) {
+    public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
         this.puntiVitaTotali = puntiVitaTotali;
         this.puntiStaminaTotali = puntiStaminaTotali;
-        this.puntiVita = puntiVita;
-        this.puntiStamina = puntiStamina;
+        puntiVita = puntiVitaTotali;
+        puntiStamina = puntiStaminaTotali;
         this.velocita = velocita;
         this.nome = nome;
         this.sesso = sesso;
