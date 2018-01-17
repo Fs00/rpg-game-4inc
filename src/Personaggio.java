@@ -37,8 +37,8 @@ public abstract class Personaggio
         }
     }
 
-    public void setPuntiVita (int puntiVita) {
-        this.puntiVita = puntiVita;
+    public void subisciColpo (int danno) {
+        puntiVita -= danno;
     }
 
     public void setPuntiStamina (int puntiStamina) {
