@@ -5,8 +5,8 @@ public class Combattente extends Personaggio implements IAttaccante {
     protected boolean powUp = false; //Danni raddoppiati
     protected boolean isDef = false; //Mitigazione danni
 
-    public Combattente(int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
-        super(puntiVitaTotali, puntiStaminaTotali, velocita, nome, sesso);
+    public Combattente(int puntiVitaTotali, int attacco, int difesa, int velocita, int puntiStaminaTotali, String nome, char sesso) {
+        super(puntiVitaTotali, attacco, difesa, velocita, puntiStaminaTotali, nome, sesso);
     }
 
     /**

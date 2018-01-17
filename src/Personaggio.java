@@ -12,11 +12,12 @@ public abstract class Personaggio
     private int velocita;
     private int attacco;
     private int difesa;
+
     private String nome;
     private char sesso;
 
-    public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
-        int[] statsDaRandomizzare = {puntiVitaTotali, puntiStaminaTotali, velocita};
+    public Personaggio(int puntiVitaTotali, int attacco, int difesa, int velocita, int puntiStaminaTotali, String nome, char sesso) {
+        int[] statsDaRandomizzare = {puntiVitaTotali, attacco, difesa, velocita, puntiStaminaTotali};
         randomizzaStats(statsDaRandomizzare);
         this.nome = nome;
         this.sesso = sesso;
