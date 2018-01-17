@@ -1,23 +1,28 @@
 package ittbuonarroti.rpggame;
 
+import java.math.*;
+
+import java.util.concurrent.ThreadLocalRandom;
+
 public abstract class Personaggio
 {
-    private final int puntiVitaTotali;
-    private final int puntiStaminaTotali;
+    protected int puntiVitaTotali;
+    protected int puntiStaminaTotali;
 
-    private int puntiVita;
-    private int puntiStamina;
-    private int velocita;
-    private String nome;
-    private char sesso;
+    protected int puntiVita;
+    protected int puntiStamina;
+    protected int velocita;
+    protected int attacco;
+    protected int difesa;
+    protected String nome;
+    protected char sesso;
 
+    protected int stats;
 
-    public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int puntiVita, int puntiStamina, int velocita, String nome, char sesso) {
-        this.puntiVitaTotali = puntiVitaTotali;
-        this.puntiStaminaTotali = puntiStaminaTotali;
-        this.puntiVita = puntiVita;
-        this.puntiStamina = puntiStamina;
-        this.velocita = velocita;
+    public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
+        int[] miniarray = {puntiVitaTotali, puntiStaminaTotali, velocita};
+        this.randomStats(miniarray);
+
         this.nome = nome;
         this.sesso = sesso;
     }
@@ -50,11 +55,37 @@ public abstract class Personaggio
         return velocita;
     }
 
+    public int getAttacco() {
+        return attacco;
+    }
+
+    public void setAttacco(int attacco) {
+        this.attacco = attacco;
+    }
+
+    public int getDifesa() {
+        return difesa;
+    }
+
+    public void setDifesa(int difesa) {
+        this.difesa = difesa;
+    }
+
     public String getNome () {
         return nome;
     }
 
     public char getSesso () {
         return sesso;
+    }
+
+    protected void randomStats(int[] stats){
+        // 1 = +; 0 = -
+        //TODO FINIRE CON TUTTE LE STATISTICHE
+        if(ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1){
+            this.puntiVitaTotali = stats[0] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        }else{
+            this.puntiVitaTotali = stats[0] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        }
     }
 }
