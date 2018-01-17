@@ -72,4 +72,14 @@ public abstract class Personaggio
     public char getSesso () {
         return sesso;
     }
+
+    @Override
+    public String toString() {
+        return "Personaggio: " + this.getClass().getSimpleName() +
+                "\n Nome: " + nome +
+                "\n Sesso: " + sesso +
+                "\n Punti Vita: " + puntiVita + " (max " + puntiVitaTotali + ")" +
+                "\n Stamina: " + puntiStamina + " (max " + puntiStaminaTotali + ")" +
+                "\n Velocità: " + velocita;
+    }
 }
