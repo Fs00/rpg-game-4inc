@@ -23,12 +23,36 @@ public abstract class Personaggio
         int[] miniarray = {puntiVitaTotali, puntiStaminaTotali, velocita};
         this.randomStats(miniarray);
 
+<<<<<<< HEAD
+=======
+    public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
+        this.puntiVitaTotali = puntiVitaTotali;
+        this.puntiStaminaTotali = puntiStaminaTotali;
+        puntiVita = puntiVitaTotali;
+        puntiStamina = puntiStaminaTotali;
+        this.velocita = velocita;
+>>>>>>> 8b5c0a8170e8e5938ef33349411faf9d401c45ae
         this.nome = nome;
         this.sesso = sesso;
     }
 
-    public void setPuntiVita (int puntiVita) {
-        this.puntiVita = puntiVita;
+    /**
+     * Fa scappare un personaggio dal terreno di gioco.
+     * NB (TODO): Bisognerà prevedere una funzione nella classe di gestione per finire il duello (caso 1) o proseguirlo (caso 0)
+     * @param avv Personaggio avversario da cui si sta cercando di scappare
+     * @return 1 se il personaggio riesce a scappare; 0 altrimenti
+     */
+    public int ritirata(Personaggio avv) {
+        if (velocita > avv.getVelocita()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public void subisciColpo (int danno) {
+        puntiVita -= danno;
     }
 
     public void setPuntiStamina (int puntiStamina) {
@@ -79,6 +103,7 @@ public abstract class Personaggio
         return sesso;
     }
 
+<<<<<<< HEAD
     protected void randomStats(int[] stats){
         // 1 = +; 0 = -
         //TODO FINIRE CON TUTTE LE STATISTICHE
@@ -87,5 +112,15 @@ public abstract class Personaggio
         }else{
             this.puntiVitaTotali = stats[0] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
         }
+=======
+    @Override
+    public String toString() {
+        return "Personaggio: " + this.getClass().getSimpleName() +
+                "\n Nome: " + nome +
+                "\n Sesso: " + sesso +
+                "\n Punti Vita: " + puntiVita + " (max " + puntiVitaTotali + ")" +
+                "\n Stamina: " + puntiStamina + " (max " + puntiStaminaTotali + ")" +
+                "\n Velocità: " + velocita;
+>>>>>>> 8b5c0a8170e8e5938ef33349411faf9d401c45ae
     }
 }
