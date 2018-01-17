@@ -22,6 +22,21 @@ public abstract class Personaggio
         this.sesso = sesso;
     }
 
+    /**
+     * Fa scappare un personaggio dal terreno di gioco.
+     * NB (TODO): Bisognerà prevedere una funzione nella classe di gestione per finire il duello (caso 1) o proseguirlo (caso 0)
+     * @param avv Personaggio avversario da cui si sta cercando di scappare
+     * @return 1 se il personaggio riesce a scappare; 0 altrimenti
+     */
+    public int ritirata(Personaggio avv) {
+        if (velocita > avv.getVelocita()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
     public void setPuntiVita (int puntiVita) {
         this.puntiVita = puntiVita;
     }
