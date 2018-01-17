@@ -4,22 +4,20 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Personaggio
 {
-    protected int puntiVitaTotali;
-    protected int puntiStaminaTotali;
+    private int puntiVitaTotali;
+    private int puntiStaminaTotali;
 
-    protected int puntiVita;
-    protected int puntiStamina;
-    protected int velocita;
-    protected int attacco;
-    protected int difesa;
-    protected String nome;
-    protected char sesso;
-
-    protected int stats;
+    private int puntiVita;
+    private int puntiStamina;
+    private int velocita;
+    private int attacco;
+    private int difesa;
+    private String nome;
+    private char sesso;
 
     public Personaggio (int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
-        int[] miniarray = {puntiVitaTotali, puntiStaminaTotali, velocita};
-        this.randomStats(miniarray);
+        int[] statsDaRandomizzare = {puntiVitaTotali, puntiStaminaTotali, velocita};
+        randomizzaStats(statsDaRandomizzare);
         this.nome = nome;
         this.sesso = sesso;
     }
@@ -39,8 +37,21 @@ public abstract class Personaggio
         }
     }
 
-    public void subisciColpo (int danno) {
-        puntiVita -= danno;
+    /**
+     * Modifica la vita del personaggio. Da overridare nelle classi derivate per mitigazione etc.
+     * @param valore Quantità di puntiVita da togliere (valore negativo) o da aggiungere (valore positivo)
+     */
+    public void modificaPuntiVita(int valore)
+    {
+        if (valore + puntiVita > puntiVitaTotali)   // Per evitare overflow di PV
+            puntiVita = puntiVitaTotali;
+        else if (valore > puntiVita)        // per evitare PV negativi
+        {
+            puntiVita = 0;
+            // TODO: richiamare un metodo statico della classe di gestione per la morte o usare un valore di ritorno??
+        }
+        else
+            puntiVita += valore;
     }
 
     public void setPuntiStamina (int puntiStamina) {
@@ -91,15 +102,16 @@ public abstract class Personaggio
         return sesso;
     }
 
-    protected void randomStats(int[] stats) {
+    protected void randomizzaStats(int[] stats) {
         // 1 = +; 0 = -
         //TODO FINIRE CON TUTTE LE STATISTICHE
         if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
         {
-            this.puntiVitaTotali = stats[0] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        } else
+            puntiVitaTotali = stats[0] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        }
+        else
         {
-            this.puntiVitaTotali = stats[0] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
+            puntiVitaTotali = stats[0] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
         }
     }
 

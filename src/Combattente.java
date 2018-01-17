@@ -1,11 +1,11 @@
 package ittbuonarroti.rpggame;
 
-public class Combattente extends Personaggio implements IAttaccante{
+public class Combattente extends Personaggio implements IAttaccante {
 
     protected boolean powUp = false; //Danni raddoppiati
     protected boolean isDef = false; //Mitigazione danni
 
-    public Combattente(int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso){
+    public Combattente(int puntiVitaTotali, int puntiStaminaTotali, int velocita, String nome, char sesso) {
         super(puntiVitaTotali, puntiStaminaTotali, velocita, nome, sesso);
     }
 
@@ -14,7 +14,7 @@ public class Combattente extends Personaggio implements IAttaccante{
      * @return il valore del danno da moltiplicare
      */
     private int moltiplicatoreAttacco() {
-        if(this.powUp)
+        if (this.powUp)
             return 2;
         else
             return 1;
@@ -24,18 +24,11 @@ public class Combattente extends Personaggio implements IAttaccante{
      * Funzione modifica PV (cura o danno)
      * @param valore numero di PV da aggiungere (valore positivo) o da togliere (valore negativo)
      */
-    protected void modificaHP(int valore){
-        if(this.isDef && valore < 0){
-            //Mitigazione
+    public void modificaPuntiVita(int valore) {
+        if (this.isDef && valore < 0) {
+            // TODO Mitigazione (qui valore verrà modificato)
         }
-        else{
-            //Danno normale o cura
-            if(valore > 0 && valore + this.puntiVita > this.puntiVitaTotali)
-                //Per evitare overflow di PV
-                this.puntiVita = this.puntiVitaTotali;
-            else
-                this.puntiVita += valore
-        }
+        super.modificaPuntiVita(valore);
     }
 
     /**
@@ -43,8 +36,8 @@ public class Combattente extends Personaggio implements IAttaccante{
      * @param foe Istanza del nemico con tutti i valori.
      * @return Il danno calcolato
      */
-    public int attacca(Personaggio foe){
-        return -((this.attacco - foe.getDifesa()) * moltiplicatoreAttacco());
+    public int attacca(Personaggio foe) {
+        return -((this.getAttacco() - foe.getDifesa()) * moltiplicatoreAttacco());
     }
 
 }
