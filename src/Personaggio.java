@@ -60,13 +60,20 @@ public abstract class Personaggio
      * la possibilità e mitiga i danni con la statistica difesa
      * @param nemico Colui che effettua l'attacco ai danni di this
      * @param danno Il danno effettuato
-     * @param contrattaccabile Valore booleano che indica se l'attacco è contrattaccabile (quindi se si tratta di un contrattacco)
+     * @param contrattaccabile Valore booleano che indica se l'attacco è contrattaccabile (quindi se si tratta di un contrattacco o meno)
      */
-    public void riceviColpo(IAttaccante nemico, int danno, boolean contrattaccabile)
+    public void riceviColpo(Personaggio nemico, int danno, boolean contrattaccabile)
     {
         boolean contrattaccoRiuscito = false;
         if (this instanceof IAttaccante && contrattaccabile) {      // se quindi ha a disposizione il metodo contrattacca()
-            // TODO: possibilità di contrattacco
+            // Genera un numero a random tra 0 e 100
+            int random = ThreadLocalRandom.current().nextInt(0, 101);
+            // Se il numero generato è compreso tra 0 e la velocità del personaggio divisa per 1.5, allora contrattacca
+            if (random >= 0 && random <= velocita / 1.5)
+            {
+                ((IAttaccante) this).contrattacca(nemico, danno);
+                contrattaccoRiuscito = true;
+            }
         }
 
         if (!contrattaccoRiuscito)      // se non è riuscito a contrattaccare, subisce il danno
