@@ -1,6 +1,6 @@
 package ittbuonarroti.rpggame;
 
-public class Combattente extends Personaggio implements IAttaccante {
+public abstract class Combattente extends Personaggio implements IAttaccante {
 
     protected boolean powUp = false; //Danni raddoppiati
     protected boolean isDef = false; //Mitigazione danni
