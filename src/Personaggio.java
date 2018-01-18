@@ -60,11 +60,12 @@ public abstract class Personaggio
      * la possibilità e mitiga i danni con la statistica difesa
      * @param nemico Colui che effettua l'attacco ai danni di this
      * @param danno Il danno effettuato
+     * @param contrattaccabile Valore booleano che indica se l'attacco è contrattaccabile (quindi se si tratta di un contrattacco)
      */
-    public void riceviColpo(IAttaccante nemico, int danno)
+    public void riceviColpo(IAttaccante nemico, int danno, boolean contrattaccabile)
     {
         boolean contrattaccoRiuscito = false;
-        if (this instanceof IAttaccante) {      // se quindi ha a disposizione il metodo contrattacca()
+        if (this instanceof IAttaccante && contrattaccabile) {      // se quindi ha a disposizione il metodo contrattacca()
             // TODO: possibilità di contrattacco
         }
 
