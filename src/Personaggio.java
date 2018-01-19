@@ -2,8 +2,7 @@ package ittbuonarroti.rpggame;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Personaggio
-{
+public abstract class Personaggio {
     private int puntiVitaTotali;
     private int puntiStaminaTotali;
 
@@ -16,6 +15,11 @@ public abstract class Personaggio
     private String nome;
     private char sesso;
 
+    /**
+     * Metodo Costruttore<br>
+     * I parametri puntiVitaTotali; attacco; difesa; velocita; puntiStaminaTotali sono randomizzati dal metodo
+     * 'randomizzaStats'
+     */
     public Personaggio(int puntiVitaTotali, int attacco, int difesa, int velocita, int puntiStaminaTotali, String nome, char sesso) {
         int[] statsDaRandomizzare = {puntiVitaTotali, attacco, difesa, velocita, puntiStaminaTotali};
         randomizzaStats(statsDaRandomizzare);
@@ -24,7 +28,7 @@ public abstract class Personaggio
     }
 
     /**
-     * Fa scappare un personaggio dal terreno di gioco.
+     * Fa scappare un personaggio dal terreno di gioco<br>
      * NB (TODO): Bisognerà prevedere una funzione nella classe di gestione per finire il duello (caso 1) o proseguirlo (caso 0)
      * @param avv Personaggio avversario da cui si sta cercando di scappare
      * @return 1 se il personaggio riesce a scappare; 0 altrimenti
@@ -39,15 +43,14 @@ public abstract class Personaggio
     }
 
     /**
-     * Modifica la vita del personaggio. Da overridare nelle classi derivate in caso di mitigazioni particolari
+     * Modifica la vita del personaggio<br>
+     * Il metodo è da overridare nelle classi derivate in caso di mitigazioni particolari
      * @param valore Quantità di puntiVita da togliere (valore negativo) o da aggiungere (valore positivo)
      */
-    public void modificaPuntiVita(int valore)
-    {
+    public void modificaPuntiVita (int valore) {
         if (valore + puntiVita > puntiVitaTotali)   // Per evitare overflow di PV
             puntiVita = puntiVitaTotali;
-        else if (valore > puntiVita)        // per evitare PV negativi
-        {
+        else if (valore > puntiVita) {             // per evitare PV negativi
             puntiVita = 0;
             // TODO: richiamare un metodo statico della classe di gestione per la morte o usare un valore di ritorno??
         }
@@ -56,28 +59,27 @@ public abstract class Personaggio
     }
 
     /**
-     * Metodo chiamato dal metodo attacca() dell'avversario, che calcola la probabilità di contrattacco per chi ne ha
-     * la possibilità e mitiga i danni con la statistica difesa
+     * 'This' riceve il colpo subito da 'Nemico'
+     * (Questo metodo è chiamato dal metodo attacca() dell'avversario):<br>
+     * - Se il personaggio ne ha la possibilità, calcola la probabilità di contrattacco ed in caso fortunato esegue questa mossa<br>
+     * - Altrimenti subisce il danno (mitigato dlla difesa: danno = danno-difesa)
      * @param nemico Colui che effettua l'attacco ai danni di this
-     * @param danno Il danno effettuato
-     * @param contrattaccabile Valore booleano che indica se l'attacco è contrattaccabile (quindi se si tratta di un contrattacco o meno)
+     * @param danno Quantità di danno effettuato (inteso come puntiVita sottratti all'avversario)
+     * @param contrattaccabile Booleano che indica se l'attacco è contrattaccabile (quindi se si tratta di un contrattacco o meno)
      */
-    public void riceviColpo(Personaggio nemico, int danno, boolean contrattaccabile)
-    {
+    public void riceviColpo (Personaggio nemico, int danno, boolean contrattaccabile) {
         boolean contrattaccoRiuscito = false;
         if (this instanceof IAttaccante && contrattaccabile) {      // se quindi ha a disposizione il metodo contrattacca()
             // Genera un numero a random tra 0 e 100
             int random = ThreadLocalRandom.current().nextInt(0, 101);
             // Se il numero generato è compreso tra 0 e la velocità del personaggio divisa per 1.5, allora contrattacca
-            if (random >= 0 && random <= velocita / 1.5)
-            {
+            if (random >= 0 && random <= velocita / 1.5) {
                 ((IAttaccante) this).contrattacca(nemico, danno);
                 contrattaccoRiuscito = true;
             }
         }
 
-        if (!contrattaccoRiuscito)      // se non è riuscito a contrattaccare, subisce il danno
-        {
+        if (!contrattaccoRiuscito) {      // se non è riuscito a contrattaccare, subisce il danno
             // Mitigazione del danno attraverso la statistica difesa
             danno -= difesa;
             if (danno <= 0)     // il danno deve essere sempre almeno di 1
@@ -90,6 +92,9 @@ public abstract class Personaggio
     public void setPuntiStamina (int puntiStamina) {
         this.puntiStamina = puntiStamina;
     }
+
+
+    /** Metodi Getter **/
 
     public int getPuntiVitaTotali () {
         return puntiVitaTotali;
@@ -148,6 +153,10 @@ public abstract class Personaggio
         }
     }
 
+    /**
+     * Metodo toString()
+     * @return Stato degli attributi della classe e tipo di personaggio (Debole, Contadino, Mercenario, Soldato)
+     */
     @Override
     public String toString() {
         return "Personaggio: " + this.getClass().getSimpleName() +

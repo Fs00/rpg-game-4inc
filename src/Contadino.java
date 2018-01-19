@@ -1,11 +1,9 @@
 package ittbuonarroti.rpggame;
 
-public class Contadino extends Personaggio implements IAttaccante
-{
+public class Contadino extends Personaggio implements IAttaccante {
     private boolean attaccoCaricato = false;
 
-    public Contadino(String nome, char sesso)
-    {
+    public Contadino (String nome, char sesso) {
         super(100, 35, 10, 50, 15, nome, sesso);
     }
 
@@ -13,8 +11,7 @@ public class Contadino extends Personaggio implements IAttaccante
      * Effettua l'attacco ai danni del nemico
      * @param nemico Bersaglio dell'attacco
      */
-    public void attacca(Personaggio nemico)
-    {
+    public void attacca (Personaggio nemico) {
         int danno = getAttacco();
         // Verifica se nel turno precedente è stato usato preparaAttacco() e in caso affermativo raddoppia il danno
         if (attaccoCaricato)

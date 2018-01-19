@@ -1,7 +1,6 @@
 package ittbuonarroti.rpggame;
 
-public interface IAttaccante
-{
+public interface IAttaccante {
     void preparaAttacco();
 
     void attacca(Personaggio p);
