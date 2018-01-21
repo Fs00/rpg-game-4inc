@@ -1,4 +1,4 @@
-package ittbuonarroti.rpggame;
+package ittbuonarroti.rpggame.chara;
 
 public interface IDifesa {
     // TODO
