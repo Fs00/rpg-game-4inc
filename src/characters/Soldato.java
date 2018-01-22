@@ -1,6 +1,4 @@
-package ittbuonarroti.rpggame.chara.units;
-
-import ittbuonarroti.rpggame.chara.Combattente;
+package ittbuonarroti.rpggame.characters;
 
 public class Soldato extends Combattente {
 

@@ -1,6 +1,6 @@
-package ittbuonarroti.rpggame.chara;
+package ittbuonarroti.rpggame.characters;
 
-public class Combattente extends Personaggio implements IAttaccante {
+public abstract class Combattente extends Personaggio implements IAttaccante {
 
     protected boolean powUp = false; //Danni raddoppiati
     protected boolean isDef = false; //Mitigazione danni
@@ -36,7 +36,7 @@ public class Combattente extends Personaggio implements IAttaccante {
      * @param nemico Istanza del nemico con tutti i valori.
      * @return Il danno calcolato
      */
-    // TODO: rivedere implementazione?
+    // TODO: rivedere implementazione
     public int attacca(Personaggio nemico) {
         return -((this.getAttacco() - nemico.getDifesa()) * moltiplicatoreAttacco());
     }
