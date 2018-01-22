@@ -1,5 +1,8 @@
 package ittbuonarroti.rpggame.characters;
 
+/**
+ * Classe astratta da cui derivano {@link Soldato} e {@link Mercenario}.
+ */
 public abstract class Combattente extends Personaggio implements IAttaccante {
 
     protected boolean powUp = false; //Danni raddoppiati
@@ -21,8 +24,7 @@ public abstract class Combattente extends Personaggio implements IAttaccante {
     }
 
     /**
-     * Funzione modifica PV (cura o danno)
-     * @param valore numero di PV da aggiungere (valore positivo) o da togliere (valore negativo)
+     * Override di {@link Personaggio#modificaPuntiVita(int)} che tiene conto della modalità difesa
      */
     public void modificaPuntiVita(int valore) {
         if (this.isDef && valore < 0) {
@@ -32,9 +34,7 @@ public abstract class Combattente extends Personaggio implements IAttaccante {
     }
 
     /**
-     * Calcolo danni (includendo il moltiplicatore)
-     * @param nemico Istanza del nemico con tutti i valori.
-     * @return Il danno calcolato
+     * Implementazione di {@link IAttaccante#attacca(Personaggio)}
      */
     // TODO: rivedere implementazione
     public int attacca(Personaggio nemico) {

@@ -1,5 +1,8 @@
 package ittbuonarroti.rpggame.characters;
 
+/**
+ * Rappresenta un'istanza del personaggio Soldato.
+ */
 public class Soldato extends Combattente {
 
     public Soldato(String nome, char sesso) {

@@ -2,6 +2,10 @@ package ittbuonarroti.rpggame.characters;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Classe astratta che rappresenta un Personaggio generico.
+ * Contiene tutte le statistiche e i metodi di base.
+ */
 public abstract class Personaggio {
     private int puntiVitaTotali;
     private int puntiStaminaTotali;
@@ -18,11 +22,11 @@ public abstract class Personaggio {
     /**
      * Metodo Costruttore<br>
      * I parametri puntiVitaTotali; attacco; difesa; velocita; puntiStaminaTotali sono randomizzati dal metodo
-     * 'randomizzaStats'
+     * {@link Personaggio#assegnaStatistiche(int[])}
      */
     public Personaggio(int puntiVitaTotali, int attacco, int difesa, int velocita, int puntiStaminaTotali, String nome, char sesso) {
         int[] statsDaRandomizzare = {puntiVitaTotali, attacco, difesa, velocita, puntiStaminaTotali};
-        randomizzaStats(statsDaRandomizzare);
+        assegnaStatistiche(statsDaRandomizzare);
         this.nome = nome;
         this.sesso = sesso;
     }
@@ -62,7 +66,7 @@ public abstract class Personaggio {
      * 'This' riceve il colpo subito da 'Nemico'
      * (Questo metodo è chiamato dal metodo attacca() dell'avversario):<br>
      * - Se il personaggio ne ha la possibilità, calcola la probabilità di contrattacco ed in caso fortunato esegue questa mossa<br>
-     * - Altrimenti subisce il danno (mitigato dlla difesa: danno = danno-difesa)
+     * - Altrimenti subisce il danno (mitigato dalla difesa: danno = danno-difesa)
      * @param nemico Colui che effettua l'attacco ai danni di this
      * @param danno Quantità di danno effettuato (inteso come puntiVita sottratti all'avversario)
      * @param contrattaccabile Booleano che indica se l'attacco è contrattaccabile (quindi se si tratta di un contrattacco o meno)
@@ -140,58 +144,45 @@ public abstract class Personaggio {
         return sesso;
     }
 
-    private void randomizzaStats(int[] stats) {
+    /**
+     * Metodo che randomizza e poi assegna le statistiche del Personaggio in un range di ±5 per tutte
+     * le stats eccetto per la stamina, che varia in un range di ±2
+     *
+     * @param stats Array contenente nel seguente ordine le statistiche di base del personaggio:
+     *              puntiVitaTotali, attacco, difesa, velocita e puntiStaminaTotali
+     */
+    private void assegnaStatistiche(int[] stats) {
         // 1 = +; 0 = -
 
         //PV
         if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-        {
             puntiVitaTotali = stats[0] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }
         else
-        {
             puntiVitaTotali = stats[0] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }
 
         //ATTACCO
         if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-        {
             attacco = stats[1] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }
         else
-        {
             attacco = stats[1] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }
 
         //DIFESA
         if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-        {
             difesa = stats[2] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }
         else
-        {
             difesa = stats[2] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }
 
         //VELOCITA'
         if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-        {
             velocita = stats[3] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }
         else
-        {
             velocita = stats[3] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
-        }
 
         //PS
         if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-        {
             puntiStaminaTotali = stats[4] + ThreadLocalRandom.current().nextInt(0, 2 + 1);
-        }
         else
-        {
             puntiStaminaTotali = stats[4] - ThreadLocalRandom.current().nextInt(0, 2 + 1);
-        }
     }
 
     /**

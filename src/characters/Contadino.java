@@ -1,5 +1,8 @@
 package ittbuonarroti.rpggame.characters;
 
+/**
+ * Rappresenta un'istanza del personaggio Contadino.
+ */
 public class Contadino extends Personaggio implements IAttaccante {
     private boolean attaccoCaricato = false;
 
@@ -8,8 +11,7 @@ public class Contadino extends Personaggio implements IAttaccante {
     }
 
     /**
-     * Effettua l'attacco ai danni del nemico
-     * @param nemico Bersaglio dell'attacco
+     * Implementazione di {@link IAttaccante#attacca(Personaggio)}
      */
     public void attacca (Personaggio nemico) {
         int danno = getAttacco();
@@ -21,17 +23,14 @@ public class Contadino extends Personaggio implements IAttaccante {
     }
 
     /**
-     * Effettua il contrattacco ai danni del nemico
-     *
-     * @param nemico Bersaglio del contrattacco
-     * @param danno  Quantità di PV da togliere (deve coincidere con il danno dell'attacco originario)
+     * Implementazione di {@link IAttaccante#contrattacca(Personaggio, int)}
      */
     public void contrattacca(Personaggio nemico, int danno) {
         nemico.riceviColpo(this, danno, false);
     }
 
     /**
-     * Il personaggio perde un turno per sferrare un attacco di potenza raddoppiata nel turno successivo
+     * Implementazione di {@link IAttaccante#preparaAttacco()}
      */
     public void preparaAttacco() {
         attaccoCaricato = true;
