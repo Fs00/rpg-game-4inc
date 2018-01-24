@@ -10,10 +10,6 @@ public class Soldato extends Combattente implements IDifesa {
         super(180, 55, 35, 20, 25, nome, sesso);
     }
 
-    public Soldato() {
-        super(180, 55, 35, 20, 25, "Soldato", 'M');
-    }
-
     /**
      * Override di {@link Personaggio#modificaPuntiVita(int)} che tiene conto della modalità difesa
      */
