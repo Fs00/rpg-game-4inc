@@ -40,8 +40,7 @@ public abstract class Personaggio {
     public int ritirata(Personaggio avv) {
         if (velocita > avv.getVelocita()) {
             return 1;
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -54,10 +53,8 @@ public abstract class Personaggio {
     public void modificaPuntiVita (int valore) {
         if (valore + puntiVita > puntiVitaTotali)   // Per evitare overflow di PV
             puntiVita = puntiVitaTotali;
-        else if (valore > puntiVita) {             // per evitare PV negativi
+        else if (valore > puntiVita)                // per evitare PV negativi
             puntiVita = 0;
-            // TODO: richiamare un metodo statico della classe di gestione per la morte o usare un valore di ritorno??
-        }
         else
             puntiVita += valore;
     }

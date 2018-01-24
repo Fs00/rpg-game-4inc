@@ -7,7 +7,7 @@ public interface IAttaccante {
     /**
      * Il personaggio perde un turno per sferrare un attacco di potenza raddoppiata nel turno successivo
      */
-    void preparaAttacco();
+    void caricaAttacco();
 
     /**
      * Effettua l'attacco ai danni del nemico

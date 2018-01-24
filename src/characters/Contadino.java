@@ -6,20 +6,21 @@ package ittbuonarroti.rpggame.characters;
 public class Contadino extends Personaggio implements IAttaccante {
     private boolean attaccoCaricato = false;
 
-    public Contadino (String nome, char sesso) {
+    public Contadino(String nome, char sesso) {
         super(100, 35, 10, 50, 15, nome, sesso);
     }
 
     /**
      * Implementazione di {@link IAttaccante#attacca(Personaggio)}
      */
-    public void attacca (Personaggio nemico) {
+    public void attacca(Personaggio nemico) {
         int danno = getAttacco();
-        // Verifica se nel turno precedente è stato usato preparaAttacco() e in caso affermativo raddoppia il danno
-        if (attaccoCaricato)
+        // Verifica se nel turno precedente è stato usato caricaAttacco() e in caso affermativo raddoppia il danno
+        if (attaccoCaricato) {
             danno *= 2;
+            attaccoCaricato = false;
+        }
         nemico.riceviColpo(this, danno, true);
-        attaccoCaricato = false;
     }
 
     /**
@@ -30,9 +31,9 @@ public class Contadino extends Personaggio implements IAttaccante {
     }
 
     /**
-     * Implementazione di {@link IAttaccante#preparaAttacco()}
+     * Implementazione di {@link IAttaccante#caricaAttacco()}
      */
-    public void preparaAttacco() {
+    public void caricaAttacco() {
         attaccoCaricato = true;
     }
 }

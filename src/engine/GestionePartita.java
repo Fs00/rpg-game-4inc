@@ -56,6 +56,7 @@ public class GestionePartita {
     }
 
 
+    // TODO RIVEDERE
     /*public boolean fine(){
         return this.player.getPuntiVita() == 0 || this.enemy.getPuntiVita() == 0 || this.run;
     }*/
