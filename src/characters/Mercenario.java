@@ -9,5 +9,9 @@ public class Mercenario extends Combattente {
         super(200, 60, 25, 30, 22, nome, sesso);
     }
 
+    public Mercenario() {
+        super(200, 60, 25, 30, 22, "Mercenario", 'M');
+    }
+
 
 }

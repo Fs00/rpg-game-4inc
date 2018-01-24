@@ -1,5 +1,7 @@
 package ittbuonarroti.rpggame.characters;
 
+import ittbuonarroti.rpggame.engine.RNG;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -19,6 +21,9 @@ public abstract class Personaggio {
     private String nome;
     private char sesso;
 
+    private boolean isDef = false;
+    private double damageReduce = 1; //Va sostituito a seconda del tipo di personaggio.
+
     /**
      * Metodo Costruttore<br>
      * I parametri puntiVitaTotali; attacco; difesa; velocita; puntiStaminaTotali sono randomizzati dal metodo
@@ -33,22 +38,23 @@ public abstract class Personaggio {
 
     /**
      * Fa scappare un personaggio dal terreno di gioco:<br>
-     *     - Calcola la probabilità di riuscire a scappare (50 + (VEL personaggio che si vuole ritirare - VEL nemico))
-     *     - Genera un numero casuale tra 1 e 100
-     *     Se il numero generato è minore della probabilità, il personaggio riesce a scappare, altrimenti no
+     * - Calcola la probabilità di riuscire a scappare (50 + (VEL personaggio che si vuole ritirare - VEL nemico))
+     * - Genera un numero casuale tra 1 e 100
      * NB (TODO): Bisognerà prevedere una funzione nella classe di gestione per finire il duello (caso 1) o proseguirlo (caso 0)
      * @param avv Personaggio avversario da cui si sta cercando di scappare
      * @return 1 se il personaggio riesce a scappare; 0 altrimenti
      */
     public int ritirata(Personaggio avv) {
-        if (50 + (50 - avv.getVelocita()) < ThreadLocalRandom.current().nextInt(1, 101))
+        if (50 + (50 - avv.getVelocita()) < RNG.random(1, 101)) {
             return 1;
-        else
+        } else {
             return 0;
+        }
     }
 
     /**
      * Modifica la vita del personaggio<br>
+     * Se il numero generato è minore della probabilità, il personaggio riesce a scappare, altrimenti no.
      * Il metodo è da overridare nelle classi derivate in caso di mitigazioni particolari
      * @param valore Quantità di puntiVita da togliere (valore negativo) o da aggiungere (valore positivo)
      */
@@ -88,12 +94,20 @@ public abstract class Personaggio {
             if (danno <= 0)     // il danno deve essere sempre almeno di 1
                 danno = 1;
 
+            //Riduzione dei danni in caso di Guard
+            if (isDef)
+                danno /= damageReduce;
+
             this.modificaPuntiVita(Math.negateExact(danno));
         }
     }
 
     public void setPuntiStamina (int puntiStamina) {
         this.puntiStamina = puntiStamina;
+    }
+
+    public void setGuard(boolean input) {
+        this.isDef = input;
     }
 
 
@@ -154,34 +168,34 @@ public abstract class Personaggio {
         // 1 = +; 0 = -
 
         //PV
-        if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-            puntiVitaTotali = stats[0] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        if (RNG.random(0, 2) == 1)
+            puntiVitaTotali = stats[0] + RNG.random(0, 5);
         else
-            puntiVitaTotali = stats[0] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
+            puntiVitaTotali = stats[0] - RNG.random(0, 5);
 
         //ATTACCO
-        if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-            attacco = stats[1] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        if (RNG.random(0, 2) == 1)
+            attacco = stats[1] + RNG.random(0, 5);
         else
-            attacco = stats[1] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
+            attacco = stats[1] - RNG.random(0, 5);
 
         //DIFESA
-        if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-            difesa = stats[2] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        if (RNG.random(0, 2) == 1)
+            difesa = stats[2] + RNG.random(0, 5);
         else
-            difesa = stats[2] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
+            difesa = stats[2] - RNG.random(0, 5);
 
         //VELOCITA'
-        if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-            velocita = stats[3] + ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        if (RNG.random(0, 2) == 1)
+            velocita = stats[3] + RNG.random(0, 5);
         else
-            velocita = stats[3] - ThreadLocalRandom.current().nextInt(0, 4 + 1);
+            velocita = stats[3] - RNG.random(0, 5);
 
         //PS
-        if (ThreadLocalRandom.current().nextInt(0, 1 + 1) == 1)
-            puntiStaminaTotali = stats[4] + ThreadLocalRandom.current().nextInt(0, 2 + 1);
+        if (RNG.random(0, 2) == 1)
+            puntiStaminaTotali = stats[4] + RNG.random(0, 3);
         else
-            puntiStaminaTotali = stats[4] - ThreadLocalRandom.current().nextInt(0, 2 + 1);
+            puntiStaminaTotali = stats[4] - RNG.random(0, 3);
 
         puntiStamina = puntiStaminaTotali;
         puntiVita = puntiVitaTotali;

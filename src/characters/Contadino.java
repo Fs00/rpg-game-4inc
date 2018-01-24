@@ -5,6 +5,7 @@ package ittbuonarroti.rpggame.characters;
  */
 public class Contadino extends Personaggio implements IAttaccante {
     private boolean attaccoCaricato = false;
+    private boolean isDef = false;
 
     public Contadino(String nome, char sesso) {
         super(100, 35, 10, 50, 15, nome, sesso);
