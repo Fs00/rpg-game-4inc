@@ -32,17 +32,19 @@ public abstract class Personaggio {
     }
 
     /**
-     * Fa scappare un personaggio dal terreno di gioco<br>
+     * Fa scappare un personaggio dal terreno di gioco:<br>
+     *     - Calcola la probabilità di riuscire a scappare (50 + (VEL personaggio che si vuole ritirare - VEL nemico))
+     *     - Genera un numero casuale tra 1 e 100
+     *     Se il numero generato è minore della probabilità, il personaggio riesce a scappare, altrimenti no
      * NB (TODO): Bisognerà prevedere una funzione nella classe di gestione per finire il duello (caso 1) o proseguirlo (caso 0)
      * @param avv Personaggio avversario da cui si sta cercando di scappare
      * @return 1 se il personaggio riesce a scappare; 0 altrimenti
      */
     public int ritirata(Personaggio avv) {
-        if (velocita > avv.getVelocita()) {
+        if (50 + (50 - avv.getVelocita()) < ThreadLocalRandom.current().nextInt(1, 101))
             return 1;
-        } else {
+        else
             return 0;
-        }
     }
 
     /**
