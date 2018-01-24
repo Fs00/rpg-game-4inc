@@ -183,6 +183,9 @@ public abstract class Personaggio {
             puntiStaminaTotali = stats[4] + ThreadLocalRandom.current().nextInt(0, 2 + 1);
         else
             puntiStaminaTotali = stats[4] - ThreadLocalRandom.current().nextInt(0, 2 + 1);
+
+        puntiStamina = puntiStaminaTotali;
+        puntiVita = puntiVitaTotali;
     }
 
     /**
