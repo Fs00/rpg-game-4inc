@@ -2,8 +2,6 @@ package ittbuonarroti.rpggame.characters;
 
 import ittbuonarroti.rpggame.engine.RNG;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * Classe astratta che rappresenta un Personaggio generico.
  * Contiene tutte le statistiche e i metodi di base.
@@ -20,9 +18,6 @@ public abstract class Personaggio {
 
     private String nome;
     private char sesso;
-
-    private boolean isDef = false;
-    private double damageReduce = 1; //Va sostituito a seconda del tipo di personaggio.
 
     /**
      * Metodo Costruttore<br>
@@ -44,12 +39,11 @@ public abstract class Personaggio {
      * @param avv Personaggio avversario da cui si sta cercando di scappare
      * @return 1 se il personaggio riesce a scappare; 0 altrimenti
      */
-    public int ritirata(Personaggio avv) {
-        if (50 + (50 - avv.getVelocita()) < RNG.random(1, 101)) {
-            return 1;
-        } else {
-            return 0;
-        }
+    public boolean ritirata(Personaggio avv) {
+        if (50 + (50 - avv.getVelocita()) < RNG.random(0, 100))
+            return true;
+        else
+            return false;
     }
 
     /**
@@ -80,7 +74,7 @@ public abstract class Personaggio {
         boolean contrattaccoRiuscito = false;
         if (this instanceof IAttaccante && contrattaccabile) {      // se quindi ha a disposizione il metodo contrattacca()
             // Genera un numero a random tra 0 e 100
-            int random = ThreadLocalRandom.current().nextInt(0, 101);
+            int random = RNG.random(0, 100);
             // Se il numero generato è compreso tra 0 e la velocità del personaggio divisa per 1.5, allora contrattacca
             if (random >= 0 && random <= velocita / 1.5) {
                 ((IAttaccante) this).contrattacca(nemico, danno);
@@ -94,10 +88,6 @@ public abstract class Personaggio {
             if (danno <= 0)     // il danno deve essere sempre almeno di 1
                 danno = 1;
 
-            //Riduzione dei danni in caso di Guard
-            if (isDef)
-                danno /= damageReduce;
-
             this.modificaPuntiVita(Math.negateExact(danno));
         }
     }
@@ -106,12 +96,8 @@ public abstract class Personaggio {
         this.puntiStamina = puntiStamina;
     }
 
-    public void setGuard(boolean input) {
-        this.isDef = input;
-    }
 
-
-    /** Metodi Getter **/
+    /* Metodi Getter */
 
     public int getPuntiVitaTotali () {
         return puntiVitaTotali;
@@ -168,34 +154,34 @@ public abstract class Personaggio {
         // 1 = +; 0 = -
 
         //PV
-        if (RNG.random(0, 2) == 1)
+        if (RNG.lanciaMoneta() == true)
             puntiVitaTotali = stats[0] + RNG.random(0, 5);
         else
             puntiVitaTotali = stats[0] - RNG.random(0, 5);
 
         //ATTACCO
-        if (RNG.random(0, 2) == 1)
+        if (RNG.lanciaMoneta() == true)
             attacco = stats[1] + RNG.random(0, 5);
         else
             attacco = stats[1] - RNG.random(0, 5);
 
         //DIFESA
-        if (RNG.random(0, 2) == 1)
+        if (RNG.lanciaMoneta() == true)
             difesa = stats[2] + RNG.random(0, 5);
         else
             difesa = stats[2] - RNG.random(0, 5);
 
         //VELOCITA'
-        if (RNG.random(0, 2) == 1)
+        if (RNG.lanciaMoneta() == true)
             velocita = stats[3] + RNG.random(0, 5);
         else
             velocita = stats[3] - RNG.random(0, 5);
 
         //PS
-        if (RNG.random(0, 2) == 1)
-            puntiStaminaTotali = stats[4] + RNG.random(0, 3);
+        if (RNG.lanciaMoneta() == true)
+            puntiStaminaTotali = stats[4] + RNG.random(0, 2);
         else
-            puntiStaminaTotali = stats[4] - RNG.random(0, 3);
+            puntiStaminaTotali = stats[4] - RNG.random(0, 2);
 
         puntiStamina = puntiStaminaTotali;
         puntiVita = puntiVitaTotali;

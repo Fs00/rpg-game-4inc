@@ -4,7 +4,7 @@ package ittbuonarroti.rpggame.characters;
  * Rappresenta un'istanza del personaggio Soldato.
  */
 public class Soldato extends Combattente implements IDifesa {
-    private boolean isDef = false; //Danni raddoppiati
+    private boolean isDef = false;      // indica se il personaggio ha usato il guard
 
     public Soldato(String nome, char sesso) {
         super(180, 55, 35, 20, 25, nome, sesso);
@@ -15,15 +15,14 @@ public class Soldato extends Combattente implements IDifesa {
      */
     public void modificaPuntiVita(int valore) {
         if (this.isDef && valore < 0) {
-            valore -= valore * 50 / 100;
+            valore /= 2;
             isDef = false;
         }
         super.modificaPuntiVita(valore);
     }
 
     /**
-     * Il personaggio perde un turno per poi subire danni dimezzati nel turno successivo
-     * TODO: Far perdere un turno
+     * Implementazione di {@link IDifesa#preparaDifesa()}
      */
     @Override
     public void preparaDifesa() {
