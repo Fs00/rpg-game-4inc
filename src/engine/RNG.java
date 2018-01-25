@@ -8,13 +8,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RNG {
 
     /**
-     * Genera un numero random da un valore di inizio e di quanti numeri a partire da quest'ultimo aggiungere al range dell'RNG
+     * Genera un numero randomNumber da un valore di inizio e di quanti numeri a partire da quest'ultimo aggiungere al range dell'RNG
      *
      * @param start il numero più basso per la generazione casuale (incluso)
      * @param end Il limite massimo per la generazione (incluso)
      * @return Il numero generato
      */
-    public static int random(int start, int end) {
+    public static int randomNumber(int start, int end) {
         return ThreadLocalRandom.current().nextInt(start, end + 1);
     }
 

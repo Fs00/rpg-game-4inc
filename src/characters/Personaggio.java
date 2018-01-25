@@ -40,7 +40,7 @@ public abstract class Personaggio {
      * @return 1 se il personaggio riesce a scappare; 0 altrimenti
      */
     public boolean ritirata(Personaggio avv) {
-        if (50 + (50 - avv.getVelocita()) < RNG.random(0, 100))
+        if (50 + (50 - avv.getVelocita()) < RNG.randomNumber(0, 100))
             return true;
         else
             return false;
@@ -73,8 +73,8 @@ public abstract class Personaggio {
     public void riceviColpo (Personaggio nemico, int danno, boolean contrattaccabile) {
         boolean contrattaccoRiuscito = false;
         if (this instanceof IAttaccante && contrattaccabile) {      // se quindi ha a disposizione il metodo contrattacca()
-            // Genera un numero a random tra 0 e 100
-            int random = RNG.random(0, 100);
+            // Genera un numero a randomNumber tra 0 e 100
+            int random = RNG.randomNumber(0, 100);
             // Se il numero generato è compreso tra 0 e la velocità del personaggio divisa per 1.5, allora contrattacca
             if (random >= 0 && random <= velocita / 1.5) {
                 ((IAttaccante) this).contrattacca(nemico, danno);
@@ -155,33 +155,33 @@ public abstract class Personaggio {
 
         //PV
         if (RNG.lanciaMoneta() == true)
-            puntiVitaTotali = stats[0] + RNG.random(0, 5);
+            puntiVitaTotali = stats[0] + RNG.randomNumber(0, 5);
         else
-            puntiVitaTotali = stats[0] - RNG.random(0, 5);
+            puntiVitaTotali = stats[0] - RNG.randomNumber(0, 5);
 
         //ATTACCO
         if (RNG.lanciaMoneta() == true)
-            attacco = stats[1] + RNG.random(0, 5);
+            attacco = stats[1] + RNG.randomNumber(0, 5);
         else
-            attacco = stats[1] - RNG.random(0, 5);
+            attacco = stats[1] - RNG.randomNumber(0, 5);
 
         //DIFESA
         if (RNG.lanciaMoneta() == true)
-            difesa = stats[2] + RNG.random(0, 5);
+            difesa = stats[2] + RNG.randomNumber(0, 5);
         else
-            difesa = stats[2] - RNG.random(0, 5);
+            difesa = stats[2] - RNG.randomNumber(0, 5);
 
         //VELOCITA'
         if (RNG.lanciaMoneta() == true)
-            velocita = stats[3] + RNG.random(0, 5);
+            velocita = stats[3] + RNG.randomNumber(0, 5);
         else
-            velocita = stats[3] - RNG.random(0, 5);
+            velocita = stats[3] - RNG.randomNumber(0, 5);
 
         //PS
         if (RNG.lanciaMoneta() == true)
-            puntiStaminaTotali = stats[4] + RNG.random(0, 2);
+            puntiStaminaTotali = stats[4] + RNG.randomNumber(0, 2);
         else
-            puntiStaminaTotali = stats[4] - RNG.random(0, 2);
+            puntiStaminaTotali = stats[4] - RNG.randomNumber(0, 2);
 
         puntiStamina = puntiStaminaTotali;
         puntiVita = puntiVitaTotali;

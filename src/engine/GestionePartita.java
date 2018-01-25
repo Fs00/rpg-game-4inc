@@ -1,22 +1,24 @@
 package ittbuonarroti.rpggame.engine;
 
-import ittbuonarroti.rpggame.characters.Combattente;
 import ittbuonarroti.rpggame.characters.Personaggio;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class GestionePartita {
 
-    private Personaggio player1;          // --
-    private Personaggio player2;          // --
-    private int[] ordineGiocatori;        // array contenente gli indici dei giocatori nell'ordine in cui attaccheranno nel turno corrente
-    private int contatoreTurno;           // contatore turno attuale
-    private boolean finePartita = false;  // fuggito?
-    private int giocatoreFuggito = -1;    // indice giocatore fuggito (-1 nessuno)
+    private Personaggio player1, player2;   // giocatori
+    private int[] ordineGiocatori;          // array contenente gli indici dei giocatori nell'ordine in cui attaccheranno nel turno corrente
+    private int contatoreTurno;             // contatore turno attuale
+    private boolean finePartita = false;    // indica se la partita è conclusa o meno
+    private int giocatoreFuggito = -1;      // indice giocatore fuggito (-1 nessuno)
 
-    public final static int MOVE_ATTACK = 1;
-    public final static int MOVE_GUARD = 2;
-    public final static int MOVE_POWER_UP = 3;
-    public final static int MOVE_ITEM = 4;
-    public final static int MOVE_RUN = 5;
+    // CODICI MOSSE
+    // Nota: le ho riordinate per facilitare i controlli in caso di input errato nel main (@Fs00)
+    private final static int MOVE_ATTACK = 1;
+    private final static int MOVE_RUN = 2;
+    private final static int MOVE_POWER_UP = 3;
+    private final static int MOVE_GUARD = 4;
+    private final static int MOVE_ITEM = 5;     // unused
+
 
     public GestionePartita(Personaggio[] giocatori) {
         this.player1 = giocatori[0];
@@ -30,7 +32,7 @@ public class GestionePartita {
         // TODO: quando ci sarà la GUI, adattare questo metodo
     }
 
-    /**
+    /*
      * @deprecated
      * Effettua le dovute preparazioni per il turno di battaglia successivo
      */
@@ -54,36 +56,44 @@ public class GestionePartita {
         }
     }*/
 
+    /**
+     * Metodo che fa effettuare al giocatore passato per parametro (che sarà quello corrente) la mossa richiesta
+     *
+     * @param indiceGiocatore L'indice del giocatore corrente (1 o 2)
+     * @param codiceMossa     Il codice della mossa da effettuare
+     */
     public void faiMossa(int indiceGiocatore, int codiceMossa) {
 
-        Combattente temp;
-        Personaggio avv;
+        Personaggio giocatoreCorrente, nemico;
+
         if (indiceGiocatore == 1) {
-            temp = (Combattente) this.player1;
-            avv = this.player2;
-        } else {
-            temp = (Combattente) this.player2;
-            avv = this.player1;
+            giocatoreCorrente = this.player1;
+            nemico = this.player2;
+        }
+        else {
+            giocatoreCorrente = this.player2;
+            nemico = this.player1;
         }
 
+        // Nota per @AlibabaSakura: per il guard e il power-up, fai il cast rispettivamente a IDifesa e IAttaccante
+        // per poter chiamare le funzioni (vedi la parte del contrattacco in Personaggio.riceviColpo() se non sai come fare)
         switch (codiceMossa) {
             case GestionePartita.MOVE_ATTACK:
                 //ATTACCO TODO
                 break;
             case GestionePartita.MOVE_GUARD:
-                temp.setGuard(true);
+                // TODO
                 break;
             case GestionePartita.MOVE_POWER_UP:
-                temp.caricaAttacco();
+                // TODO
                 break;
             case GestionePartita.MOVE_ITEM:
-                //PLACEHOLDER
-                break;
+                throw new NotImplementedException();
             case GestionePartita.MOVE_RUN:
                 //FUGA
-                if (temp.ritirata(avv) == 1)
+                if (giocatoreCorrente.ritirata(nemico) == true)
                     this.giocatoreFuggito = indiceGiocatore;
-                //TODO Messaggio fuga riuscita o fallita
+                //TODO Messaggio fuga riuscita o fallita (dovrebbe essere stampato direttamente dalla classe Personaggio)
                 break;
 
         }
@@ -102,19 +112,16 @@ public class GestionePartita {
         return false;
     }
 
-    // TODO RIVEDERE
-    /*public boolean fine(){
-        return  this.run;
-    }*/
-
     public int giocatorePiuVeloce() {
         if (player1.getVelocita() > player2.getVelocita())
             return 1;
         else if (player2.getVelocita() > player1.getVelocita())
             return 2;
-        else
-            //TODO RNG MONETA
-            return 1;
-        //RNG.random(0,2);
+        else {
+            if (RNG.lanciaMoneta() == true)
+                return 1;
+            else
+                return 2;
+        }
     }
 }
