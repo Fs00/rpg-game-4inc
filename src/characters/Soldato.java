@@ -13,6 +13,7 @@ public class Soldato extends Combattente implements IDifesa {
     /**
      * Override di {@link Personaggio#modificaPuntiVita(int)} che tiene conto della modalità difesa
      */
+    @Override
     public void modificaPuntiVita(int valore) {
         if (this.isDef && valore < 0) {
             valore /= 2;
@@ -24,7 +25,6 @@ public class Soldato extends Combattente implements IDifesa {
     /**
      * Implementazione di {@link IDifesa#preparaDifesa()}
      */
-    @Override
     public void preparaDifesa() {
         isDef = true;
     }

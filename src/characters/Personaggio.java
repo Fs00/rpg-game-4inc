@@ -17,7 +17,7 @@ public abstract class Personaggio {
     private int difesa;
 
     private String nome;
-    private char sesso;
+    private char sesso;     // maiuscolo
 
     /**
      * Metodo Costruttore<br>
