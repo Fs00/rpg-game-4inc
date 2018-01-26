@@ -92,12 +92,12 @@ public abstract class Personaggio {
         }
     }
 
-    public void setPuntiStamina (int puntiStamina) {
-        this.puntiStamina = puntiStamina;
+    public void decrementaStamina(int quantita) {
+        this.puntiStamina -= quantita;
     }
 
 
-    /* Metodi Getter */
+    /* Metodi Getter/Setter */
 
     public int getPuntiVitaTotali () {
         return puntiVitaTotali;
