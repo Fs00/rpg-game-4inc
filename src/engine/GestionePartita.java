@@ -88,7 +88,7 @@ public class GestionePartita {
                 // TODO
                 break;
             case GestionePartita.MOVE_ITEM:
-                throw new NotImplementedException();
+                throw new NotImplementedException(); //Coming Soon (TM)
             case GestionePartita.MOVE_RUN:
                 //FUGA
                 if (giocatoreCorrente.ritirata(nemico) == true)

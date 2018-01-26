@@ -151,37 +151,16 @@ public abstract class Personaggio {
      *              puntiVitaTotali, attacco, difesa, velocita e puntiStaminaTotali
      */
     private void assegnaStatistiche(int[] stats) {
-        // 1 = +; 0 = -
-
         //PV
-        if (RNG.lanciaMoneta() == true)
-            puntiVitaTotali = stats[0] + RNG.randomNumber(0, 5);
-        else
-            puntiVitaTotali = stats[0] - RNG.randomNumber(0, 5);
-
+        puntiVitaTotali = stats[0] + RNG.randomNumber(-5, 5);
         //ATTACCO
-        if (RNG.lanciaMoneta() == true)
-            attacco = stats[1] + RNG.randomNumber(0, 5);
-        else
-            attacco = stats[1] - RNG.randomNumber(0, 5);
-
+        attacco = stats[1] + RNG.randomNumber(-5, 5);
         //DIFESA
-        if (RNG.lanciaMoneta() == true)
-            difesa = stats[2] + RNG.randomNumber(0, 5);
-        else
-            difesa = stats[2] - RNG.randomNumber(0, 5);
-
+        difesa = stats[2] + RNG.randomNumber(-5, 5);
         //VELOCITA'
-        if (RNG.lanciaMoneta() == true)
-            velocita = stats[3] + RNG.randomNumber(0, 5);
-        else
-            velocita = stats[3] - RNG.randomNumber(0, 5);
-
+        velocita = stats[3] + RNG.randomNumber(-5, 5);
         //PS
-        if (RNG.lanciaMoneta() == true)
-            puntiStaminaTotali = stats[4] + RNG.randomNumber(0, 2);
-        else
-            puntiStaminaTotali = stats[4] - RNG.randomNumber(0, 2);
+        puntiStaminaTotali = stats[4] + RNG.randomNumber(-2, 2);
 
         puntiStamina = puntiStaminaTotali;
         puntiVita = puntiVitaTotali;
