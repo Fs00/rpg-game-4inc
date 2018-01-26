@@ -1,29 +1,30 @@
 package ittbuonarroti.rpggame.engine;
 
+import ittbuonarroti.rpggame.characters.IAttaccante;
+import ittbuonarroti.rpggame.characters.IDifesa;
 import ittbuonarroti.rpggame.characters.Personaggio;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class GestionePartita {
 
     private Personaggio player1, player2;   // giocatori
-    private int[] ordineGiocatori;          // array contenente gli indici dei giocatori nell'ordine in cui attaccheranno nel turno corrente
+    //private int[] ordineGiocatori;        // array contenente gli indici dei giocatori nell'ordine in cui attaccheranno nel turno corrente
     private int contatoreTurno;             // contatore turno attuale
-    private boolean finePartita = false;    // indica se la partita è conclusa o meno
+    private int vincitore = -1;           // indica se la partita è conclusa o meno (-1 non terminata, 0 pareggio, il resto indici giocatori)
     private int giocatoreFuggito = -1;      // indice giocatore fuggito (-1 nessuno)
 
     // CODICI MOSSE
     // Nota: le ho riordinate per facilitare i controlli in caso di input errato nel main (@Fs00)
-    private final static int MOVE_ATTACK = 1;
-    private final static int MOVE_RUN = 2;
-    private final static int MOVE_POWER_UP = 3;
-    private final static int MOVE_GUARD = 4;
-    private final static int MOVE_ITEM = 5;     // unused
+    public final static int MOVE_ATTACK = 1;
+    public final static int MOVE_RUN = 2;
+    public final static int MOVE_POWER_UP = 3;
+    public final static int MOVE_GUARD = 4;
+    public final static int MOVE_ITEM = 5;     // unused
 
 
     public GestionePartita(Personaggio[] giocatori) {
         this.player1 = giocatori[0];
         this.player2 = giocatori[1];
-        ordineGiocatori = new int[2];
         contatoreTurno = 1;
     }
 
@@ -75,17 +76,15 @@ public class GestionePartita {
             nemico = this.player1;
         }
 
-        // Nota per @AlibabaSakura: per il guard e il power-up, fai il cast rispettivamente a IDifesa e IAttaccante
-        // per poter chiamare le funzioni (vedi la parte del contrattacco in Personaggio.riceviColpo() se non sai come fare)
         switch (codiceMossa) {
             case GestionePartita.MOVE_ATTACK:
-                //ATTACCO TODO
+                ((IAttaccante) giocatoreCorrente).attacca(nemico);
                 break;
             case GestionePartita.MOVE_GUARD:
-                // TODO
+                ((IDifesa) giocatoreCorrente).preparaDifesa();
                 break;
             case GestionePartita.MOVE_POWER_UP:
-                // TODO
+                ((IAttaccante) giocatoreCorrente).caricaAttacco();
                 break;
             case GestionePartita.MOVE_ITEM:
                 throw new NotImplementedException(); //Coming Soon (TM)
@@ -95,21 +94,52 @@ public class GestionePartita {
                     this.giocatoreFuggito = indiceGiocatore;
                 //TODO Messaggio fuga riuscita o fallita (dovrebbe essere stampato direttamente dalla classe Personaggio)
                 break;
-
+            default:
+                stampaMessaggio("");
+                break;
         }
-    }
-
-    public int[] getOrdineGiocatori() {
-        return ordineGiocatori;
     }
 
     public int getContatoreTurno() {
         return contatoreTurno;
     }
 
+    /**
+     * Controlla se la partita è conclusa controllando certi paramteri:
+     * - PV G1 sono a 0
+     * - PV G2 sono a 0
+     * - PS di entrambi esauriti
+     * - Giocatore fuggito
+     *
+     * @return se la partita è conclusa (true) o meno (false)
+     */
     public boolean controlloPartitaConclusa() {
-        //TODO
-        return false;
+        //P1 0 HP
+        if (player1.getPuntiVita() == 0)
+            vincitore = 2;
+            //P2 0 HP
+        else if (player2.getPuntiVita() == 0)
+            vincitore = 1;
+            //Zero SP
+        else if (player1.getPuntiStamina() == 0 && player2.getPuntiStamina() == 0)
+            if (player1.getPuntiVita() > player2.getPuntiVita())
+                vincitore = 1;
+            else if (player2.getPuntiVita() > player1.getPuntiVita())
+                vincitore = 2;
+            else
+                vincitore = 0;
+            //Fuga
+        else if (giocatoreFuggito != -1)
+            switch (giocatoreFuggito) {
+                case 1:
+                    vincitore = 2;
+                    break;
+                case 2:
+                    vincitore = 1;
+                    break;
+            }
+        //Fine
+        return vincitore != -1;
     }
 
     public int giocatorePiuVeloce() {
