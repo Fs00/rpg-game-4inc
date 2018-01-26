@@ -16,7 +16,6 @@ public class App {
         boolean sceltaCorretta = false;
         Personaggio[] personaggi = new Personaggio[N_PLAYERS];
         Scanner input = new Scanner(System.in);
-        GestionePartita gestore;
 
         for (int i = 0; i < N_PLAYERS; i++) {
             String nome, scelta;
@@ -31,7 +30,7 @@ public class App {
                 System.out.print("Sei maschio o femmina? (M/F) ");
                 scelta = input.nextLine();
                 if (scelta.length() == 1 && (scelta.equals("M") || scelta.equals("F") || scelta.equals("m") || scelta.equals("f"))) {
-                    sesso = scelta.charAt(0);
+                    sesso = scelta.toUpperCase().charAt(0);
                     sceltaCorretta = true;
                 }
                 else
@@ -78,7 +77,97 @@ public class App {
             sceltaCorretta = false;
         }
 
-        gestore = new GestionePartita(personaggi);
-        // TO BE CONTINUED
+        // INIZIO PARTITA
+        GestionePartita partita = new GestionePartita(personaggi);
+        int[] ordineGiocatori = new int[N_PLAYERS];
+        String scelta;
+
+        while (partita.getVincitore() == -1)      // ciclo esterno: turno giocatore 1 + giocatore 2
+        {
+            System.out.println("\nTURNO " + partita.getContatoreTurno());
+
+            // Selezione giocatore che incomincia il turno
+            int primoGiocatore = partita.giocatorePiuVeloce();
+            if (primoGiocatore == 1) {
+                ordineGiocatori[0] = 1;
+                ordineGiocatori[1] = 2;
+            }
+            else if (primoGiocatore == 2) {
+                ordineGiocatori[0] = 2;
+                ordineGiocatori[1] = 1;
+            }
+
+            for (int giocatore : ordineGiocatori) {     // ciclo interno: turno dei singoli giocatori
+                // TODO: pulisci schermo console
+
+                // Stampa condizioni personaggi
+                for (Personaggio p : personaggi)
+                    System.out.println(p.toString());
+
+                // Scelta mossa
+                while (!sceltaCorretta) {
+                    System.out.println("\nTURNO DEL GIOCATORE " + giocatore);
+                    System.out.println("Mosse disponibili:");
+                    System.out.println("F: tenta fuga");
+                    if (partita.getPlayerCharacter(giocatore) instanceof IAttaccante) {
+                        System.out.println("A: attacca");
+                        System.out.println("C: caricati per sferrare doppi danni il prossimo turno");
+                    }
+                    if (partita.getPlayerCharacter(giocatore) instanceof IDifesa)
+                        System.out.println("D: difenditi per subire danni dimezzati il prossimo turno");
+                    System.out.print("Fai la tua mossa: ");
+                    scelta = input.nextLine();
+
+                    switch (scelta) {
+                        case "F":
+                        case "f":
+                            partita.faiMossa(giocatore, GestionePartita.MOVE_RUN);
+                            sceltaCorretta = true;
+                            break;
+                        case "A":
+                        case "a":
+                            if (!(partita.getPlayerCharacter(giocatore) instanceof IAttaccante))
+                                System.out.println("Mossa non disponibile per questo personaggio!");
+                            else {
+                                partita.faiMossa(giocatore, GestionePartita.MOVE_ATTACK);
+                                sceltaCorretta = true;
+                            }
+                            break;
+                        case "C":
+                        case "c":
+                            if (!(partita.getPlayerCharacter(giocatore) instanceof IAttaccante))
+                                System.out.println("Mossa non disponibile per questo personaggio!");
+                            else {
+                                partita.faiMossa(giocatore, GestionePartita.MOVE_POWER_UP);
+                                sceltaCorretta = true;
+                            }
+                            break;
+                        case "D":
+                        case "d":
+                            if (!(partita.getPlayerCharacter(giocatore) instanceof IDifesa))
+                                System.out.println("Mossa non disponibile per questo personaggio!");
+                            else {
+                                partita.faiMossa(giocatore, GestionePartita.MOVE_GUARD);
+                                sceltaCorretta = true;
+                            }
+                            break;
+                        default:
+                            System.out.println("Scelta errata!");
+                    }
+                }
+                sceltaCorretta = false;
+            }
+
+            // Controlla se, dopo la mossa, la partita è conclusa e in tal caso esci dal ciclo
+            if (partita.controlloPartitaConclusa() == true)
+                break;
+        }
+
+        // Stampa vincitore
+        int winner = partita.getVincitore();
+        if (winner > 0)
+            System.out.println("Il vincitore è il giocatore " + winner + ", con il personaggio " + partita.getPlayerCharacter(winner).getNome() + "!");
+        else
+            System.out.println("La partita si è conclusa in parità!");
     }
 }

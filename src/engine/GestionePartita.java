@@ -1,8 +1,6 @@
 package ittbuonarroti.rpggame.engine;
 
-import ittbuonarroti.rpggame.characters.IAttaccante;
-import ittbuonarroti.rpggame.characters.IDifesa;
-import ittbuonarroti.rpggame.characters.Personaggio;
+import ittbuonarroti.rpggame.characters.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class GestionePartita {
@@ -31,29 +29,29 @@ public class GestionePartita {
         // TODO: quando ci sarà la GUI, adattare questo metodo
     }
 
-    /*
-     * @deprecated
-     * Effettua le dovute preparazioni per il turno di battaglia successivo
+    public int getVincitore() {
+        return vincitore;
+    }
+
+    public int getContatoreTurno() {
+        return contatoreTurno;
+    }
+
+    /**
+     * Ottiene l'oggetto Personaggio legato al giocatore specificato
+     *
+     * @param indice Indice del giocatore (1 o 2)
+     * @return L'oggetto del giocatore richiesto
+     * @throws IllegalArgumentException se l'indice non è 1 o 2
      */
-    /*public void turnoSuccessivo() {
-        contatoreTurno++;
-
-        // Riempi l'array degli indici dei giocatori con i loro indici
-        for (int i = 0; i < giocatori.length; i++) {
-            ordineGiocatori[i] = i;
-        }
-
-        // Riordina gli indici in base alla velocità dei giocatori (l'indice del giocatore più veloce è il primo)
-        for (int i = 0; i < ordineGiocatori.length - 1; i++) {
-            for (int j = 0; j < ordineGiocatori.length; i++) {
-                if (giocatori[i].getVelocita() < giocatori[j].getVelocita()) {
-                    int swap = ordineGiocatori[i];
-                    ordineGiocatori[i] = ordineGiocatori[j];
-                    ordineGiocatori[j] = swap;
-                }
-            }
-        }
-    }*/
+    public Personaggio getPlayerCharacter(int indice) {
+        if (indice == 1)
+            return player1;
+        else if (indice == 2)
+            return player2;
+        else
+            throw new IllegalArgumentException("L'indice del giocatore non è valido.");
+    }
 
     /**
      * Metodo che fa effettuare al giocatore passato per parametro (che sarà quello corrente) la mossa richiesta
@@ -64,6 +62,7 @@ public class GestionePartita {
     public void faiMossa(int indiceGiocatore, int codiceMossa) {
 
         Personaggio giocatoreCorrente, nemico;
+        boolean mossaCompletata = false;
 
         if (indiceGiocatore == 1) {
             giocatoreCorrente = player1;
@@ -74,30 +73,47 @@ public class GestionePartita {
             nemico = player1;
         }
 
+        // Premessa: attacco, caricaAttacco e preparaDifesa richiedono stamina > 0 per poter essere eseguite
+        // La fuga può essere tentata anche con stamina =0, tuttavia causa decremento di stamina qualora fosse >0
         switch (codiceMossa) {
             case GestionePartita.MOVE_ATTACK:
-                ((IAttaccante) giocatoreCorrente).attacca(nemico);
+                if (giocatoreCorrente.getPuntiStamina() > 0) {
+                    ((IAttaccante) giocatoreCorrente).attacca(nemico);
+                    mossaCompletata = true;
+                }
+                else
+                    stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
             case GestionePartita.MOVE_GUARD:
-                ((IDifesa) giocatoreCorrente).preparaDifesa();
+                if (giocatoreCorrente.getPuntiStamina() > 0) {
+                    ((IDifesa) giocatoreCorrente).preparaDifesa();
+                    mossaCompletata = true;
+                }
+                else
+                    stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
             case GestionePartita.MOVE_POWER_UP:
-                ((IAttaccante) giocatoreCorrente).caricaAttacco();
+                if (giocatoreCorrente.getPuntiStamina() > 0) {
+                    ((IAttaccante) giocatoreCorrente).caricaAttacco();
+                    mossaCompletata = true;
+                }
+                else
+                    stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
             case GestionePartita.MOVE_ITEM:
                 throw new NotImplementedException();        // Coming Soon (?)
             case GestionePartita.MOVE_RUN:
                 //FUGA
                 if (giocatoreCorrente.ritirata(nemico) == true)
-                    this.giocatoreFuggito = indiceGiocatore;
+                    giocatoreFuggito = indiceGiocatore;
+                mossaCompletata = true;
                 break;
             default:
                 throw new IllegalArgumentException("Mossa inserita errata!");
         }
-    }
 
-    public int getContatoreTurno() {
-        return contatoreTurno;
+        if (mossaCompletata)
+            giocatoreCorrente.decrementaStamina(1);
     }
 
     /**
@@ -135,8 +151,14 @@ public class GestionePartita {
                     break;
             }
         }
-        // Ritorna al main se la partita è conclusa
-        return vincitore != -1;
+
+        // Avvisa il main se la partita è conclusa e, in caso negativo, incrementa il contatore del turno
+        if (vincitore != -1)
+            return true;
+        else {
+            contatoreTurno++;
+            return false;
+        }
     }
 
     /**

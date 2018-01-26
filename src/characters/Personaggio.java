@@ -1,6 +1,6 @@
 package ittbuonarroti.rpggame.characters;
 
-import ittbuonarroti.rpggame.engine.RNG;
+import ittbuonarroti.rpggame.engine.*;
 
 /**
  * Classe astratta che rappresenta un Personaggio generico.
@@ -40,10 +40,14 @@ public abstract class Personaggio {
      * @return 1 se il personaggio riesce a scappare; 0 altrimenti
      */
     public boolean ritirata(Personaggio avv) {
-        if (50 + (50 - avv.getVelocita()) < RNG.randomNumber(0, 100))
+        if (50 + (getVelocita() - avv.getVelocita()) < RNG.randomNumber(0, 100)) {
+            GestionePartita.stampaMessaggio("Fuga riuscita!");
             return true;
-        else
+        }
+        else {
+            GestionePartita.stampaMessaggio("Fuga fallita!");
             return false;
+        }
     }
 
     /**
@@ -53,9 +57,9 @@ public abstract class Personaggio {
      * @param valore Quantità di puntiVita da togliere (valore negativo) o da aggiungere (valore positivo)
      */
     public void modificaPuntiVita (int valore) {
-        if (valore + puntiVita > puntiVitaTotali)   // Per evitare overflow di PV
+        if (valore + puntiVita > puntiVitaTotali)               // Per evitare overflow di PV
             puntiVita = puntiVitaTotali;
-        else if (valore > puntiVita)                // per evitare PV negativi
+        else if (valore < 0 && Math.abs(valore) > puntiVita)    // per evitare PV negativi
             puntiVita = 0;
         else
             puntiVita += valore;
@@ -93,7 +97,8 @@ public abstract class Personaggio {
     }
 
     public void decrementaStamina(int quantita) {
-        this.puntiStamina -= quantita;
+        if (puntiStamina >= quantita)   // per evitare underflow di stamina
+            puntiStamina -= quantita;
     }
 
 
@@ -172,11 +177,9 @@ public abstract class Personaggio {
      */
     @Override
     public String toString() {
-        return "Personaggio: " + this.getClass().getSimpleName() +
-                "\n Nome: " + nome +
-                "\n Sesso: " + sesso +
-                "\n Punti Vita: " + puntiVita + " (max " + puntiVitaTotali + ")" +
-                "\n Stamina: " + puntiStamina + " (max " + puntiStaminaTotali + ")" +
+        return this.getClass().getSimpleName() + " " + nome + " (" + sesso + ")" +
+                "\n Punti Vita: " + puntiVita + "/" + puntiVitaTotali +
+                "\n Stamina: " + puntiStamina + "/" + puntiStaminaTotali +
                 "\n Velocità: " + velocita;
     }
 }
