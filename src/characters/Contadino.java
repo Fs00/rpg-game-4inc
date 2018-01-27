@@ -1,12 +1,20 @@
 package ittbuonarroti.rpggame.characters;
 
 /**
- * Rappresenta un'istanza del personaggio Contadino.
+ * Rappresenta un'istanza del personaggio Contadino
  */
 public class Contadino extends Personaggio implements IAttaccante {
     private boolean attaccoCaricato = false;
-    private boolean isDef = false;
 
+    /**
+     * Metodo Costruttore<br>
+     * Inizializza le statistiche in base ai seguenti parametri (poi randomizzati da {@link Personaggio#assegnaStatistiche}):<br>
+     * - puntiVitaTotali: 100<br>
+     * - attacco: 35<br>
+     * - difesa: 10<br>
+     * - velocita: 50<br>
+     * - puntiStaminaTotali: 15<br>
+     */
     public Contadino(String nome, char sesso) {
         super(100, 35, 10, 50, 15, nome, sesso);
     }

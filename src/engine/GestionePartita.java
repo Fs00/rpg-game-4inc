@@ -1,14 +1,36 @@
 package ittbuonarroti.rpggame.engine;
 
-import ittbuonarroti.rpggame.characters.*;
+import ittbuonarroti.rpggame.characters.IAttaccante;
+import ittbuonarroti.rpggame.characters.IDifesa;
+import ittbuonarroti.rpggame.characters.Personaggio;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+/**
+ * Classe di gestione della partita, utilizzata sia per la modalità
+ * a riga di comando (CLI) che per quella grafica (GUI)
+ */
 public class GestionePartita {
 
-    private Personaggio player1, player2;   // giocatori
-    private int contatoreTurno;             // contatore turno attuale
-    private int vincitore = -1;             // indica se la partita è conclusa o meno (-1 non terminata, 0 pareggio, il resto indici giocatori)
-    private int giocatoreFuggito = -1;      // indice giocatore fuggito (-1 nessuno)
+    /**
+     * Contiene il riferimento ai due personaggi attualmente in scontro
+     */
+    private Personaggio player1, player2;
+    /**
+     * Contatore del numero di mossa corrente
+     */
+    private int contatoreTurno;
+    /**
+     * Indica se la partita si è conclusa o meno:<br>
+     * -1: Non Terminata<br>
+     * 0: Pareggio<br>
+     * 1/2: Ha vinto il giocatore di indice 1/2
+     */
+    private int vincitore = -1;
+    /**
+     * Indica l'eventuale indice del giocatore fuggito dal terreno di scontro
+     * (-1 se nessuno è fuggito)
+     */
+    private int giocatoreFuggito = -1;
 
     // CODICI MOSSE
     public final static int MOVE_ATTACK = 1;
@@ -18,43 +40,28 @@ public class GestionePartita {
     public final static int MOVE_ITEM = 5;     // unused
 
 
+    /**
+     * Metodo Costruttore<br>
+     * @param giocatori Array di Personaggio già caricato in precedenza
+     */
     public GestionePartita(Personaggio[] giocatori) {
         this.player1 = giocatori[0];
         this.player2 = giocatori[1];
         contatoreTurno = 1;
     }
 
+    /**
+     * Stampa un dato messaggio a video
+     *
+     * @param messaggio Messaggio da stampare
+     */
     public static void stampaMessaggio(String messaggio) {
         System.out.println(messaggio);
         // TODO: quando ci sarà la GUI, adattare questo metodo
     }
 
-    public int getVincitore() {
-        return vincitore;
-    }
-
-    public int getContatoreTurno() {
-        return contatoreTurno;
-    }
-
     /**
-     * Ottiene l'oggetto Personaggio legato al giocatore specificato
-     *
-     * @param indice Indice del giocatore (1 o 2)
-     * @return L'oggetto del giocatore richiesto
-     * @throws IllegalArgumentException se l'indice non è 1 o 2
-     */
-    public Personaggio getPlayerCharacter(int indice) {
-        if (indice == 1)
-            return player1;
-        else if (indice == 2)
-            return player2;
-        else
-            throw new IllegalArgumentException("L'indice del giocatore non è valido.");
-    }
-
-    /**
-     * Metodo che fa effettuare al giocatore passato per parametro (che sarà quello corrente) la mossa richiesta
+     * Fa effettuare al giocatore passato per parametro la mossa richiesta
      *
      * @param indiceGiocatore L'indice del giocatore corrente (1 o 2)
      * @param codiceMossa     Il codice della mossa da effettuare
@@ -67,71 +74,67 @@ public class GestionePartita {
         if (indiceGiocatore == 1) {
             giocatoreCorrente = player1;
             nemico = player2;
-        }
-        else {
+        } else {
             giocatoreCorrente = player2;
             nemico = player1;
         }
 
-        // Premessa: attacco, caricaAttacco e preparaDifesa richiedono stamina > 0 per poter essere eseguite
-        // La fuga può essere tentata anche con stamina =0, tuttavia causa decremento di stamina qualora fosse >0
+        // attacco, caricaAttacco e preparaDifesa richiedono stamina > 0 per poter essere eseguite
+        // La fuga può essere tentata anche con stamina = 0, tuttavia causa decremento di stamina qualora fosse > 0
         switch (codiceMossa) {
-            case GestionePartita.MOVE_ATTACK:
+            case GestionePartita.MOVE_ATTACK:       // Attacca
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
                     ((IAttaccante) giocatoreCorrente).attacca(nemico);
                     mossaCompletata = true;
-                }
-                else
+                } else
                     stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
-            case GestionePartita.MOVE_GUARD:
+            case GestionePartita.MOVE_GUARD:        // Attiva lo scudo difensivo
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
                     ((IDifesa) giocatoreCorrente).preparaDifesa();
                     mossaCompletata = true;
-                }
-                else
+                } else
                     stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
-            case GestionePartita.MOVE_POWER_UP:
+            case GestionePartita.MOVE_POWER_UP:     // Prepara l'attacco
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
                     ((IAttaccante) giocatoreCorrente).caricaAttacco();
                     mossaCompletata = true;
-                }
-                else
+                } else
                     stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
             case GestionePartita.MOVE_ITEM:
                 throw new NotImplementedException();        // Coming Soon (?)
-            case GestionePartita.MOVE_RUN:
-                //FUGA
+            case GestionePartita.MOVE_RUN:      // Fugge dallo scontro
                 if (giocatoreCorrente.ritirata(nemico) == true)
                     giocatoreFuggito = indiceGiocatore;
                 mossaCompletata = true;
                 break;
-            default:
+            default:        // Tutti gli altri casi: mossa non valida
                 throw new IllegalArgumentException("Mossa inserita errata!");
         }
 
+        // Se la mossa è stata effettuata correttamente, decrementa i puntiStamina di 1
         if (mossaCompletata)
             giocatoreCorrente.decrementaStamina(1);
     }
 
     /**
-     * Controlla se la partita è conclusa verificando se:
-     * - i punti vita di uno dei due giocatori sono a 0
-     * - i punti stamina di entrambi i giocatori esauriti
-     * - uno dei due giocatori è fuggito
+     * Controlla se la partita è conclusa verificando se:<br>
+     * - i puntiVita di uno dei due giocatori sono a 0<br>
+     * - i puntiStamina di entrambi i giocatori esauriti<br>
+     * - uno dei due giocatori è fuggito<br>
      * Ed inoltre determina l'eventuale vincitore della partita.
      *
-     * @return se la partita è conclusa (true) o meno (false)
+     * @return true se la partita è conclusa, false altrimenti
      */
     public boolean controlloPartitaConclusa() {
-        // Punti vita dei giocatori
+        // Controlla puntiVita dei giocatori
         if (player1.getPuntiVita() == 0)
             vincitore = 2;
         else if (player2.getPuntiVita() == 0)
             vincitore = 1;
-            // Punti stamina di entrambi i giocatori =0 (in tal caso vince chi ha più PV)
+            // Controlla se puntiStamina di entrambi i giocatori sono a 0 (in tal caso vince chi ha più puntiVita)
         else if (player1.getPuntiStamina() == 0 && player2.getPuntiStamina() == 0) {
             if (player1.getPuntiVita() > player2.getPuntiVita())
                 vincitore = 1;
@@ -140,7 +143,7 @@ public class GestionePartita {
             else
                 vincitore = 0;
         }
-        // Giocatore fuggito
+        // Controlla se un giocatore è fuggito
         else if (giocatoreFuggito != -1) {
             switch (giocatoreFuggito) {
                 case 1:
@@ -163,10 +166,10 @@ public class GestionePartita {
     }
 
     /**
-     * Determina qual è il giocatore più veloce, ovvero quello che comincerà il turno.
+     * Determina qual è il giocatore più veloce, ovvero quello che comincerà il turno.<br>
      * Se i due giocatori hanno uguale velocità, chi comincia viene scelto casualmente
      *
-     * @return L'indice del giocatore che comincia il turno per primo (1 o 2)
+     * @return Indice del giocatore che comincia il turno per primo (1 o 2)
      */
     public int giocatorePiuVeloce() {
         if (player1.getVelocita() > player2.getVelocita())
@@ -174,10 +177,31 @@ public class GestionePartita {
         else if (player2.getVelocita() > player1.getVelocita())
             return 2;
         else {
-            if (RNG.lanciaMoneta() == true)
-                return 1;
-            else
-                return 2;
+            return RNG.randomNumber(1, 2);
         }
+    }
+
+    /**
+     * Ottiene l'oggetto Personaggio legato al giocatore specificato
+     *
+     * @param indice Indice del giocatore (1 o 2)
+     * @return L'oggetto del giocatore richiesto
+     * @throws IllegalArgumentException se l'indice non è 1 o 2
+     */
+    public Personaggio getPlayerCharacter (int indice) {
+        if (indice == 1)
+            return player1;
+        else if (indice == 2)
+            return player2;
+        else
+            throw new IllegalArgumentException("L'indice del giocatore non è valido.");
+    }
+
+    public int getVincitore () {
+        return vincitore;
+    }
+
+    public int getContatoreTurno () {
+        return contatoreTurno;
     }
 }

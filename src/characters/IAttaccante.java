@@ -4,6 +4,7 @@ package ittbuonarroti.rpggame.characters;
  * Interfaccia che devono implementare tutti i personaggi che possono attaccare
  */
 public interface IAttaccante {
+
     /**
      * Il personaggio perde un turno per sferrare un attacco di potenza raddoppiata nel turno successivo
      */

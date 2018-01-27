@@ -1,11 +1,25 @@
 package ittbuonarroti.rpggame.characters;
 
 /**
- * Rappresenta un'istanza del personaggio Soldato.
+ * Rappresenta un'istanza del personaggio Soldato
  */
 public class Soldato extends Combattente implements IDifesa {
-    private boolean isDef = false;      // indica se il personaggio ha usato il guard
 
+    /**
+     * Booleano che indica se il Soldato ha attivato (true)
+     * lo scudo che dimezza gli attacchi subiti
+     */
+    private boolean isDef = false;
+
+    /**
+     * Metodo Costruttore<br>
+     * Inizializza le statistiche in base ai seguenti parametri (poi randomizzati da {@link Personaggio#assegnaStatistiche}):<br>
+     * - puntiVitaTotali: 180<br>
+     * - attacco: 55<br>
+     * - difesa: 35<br>
+     * - velocita: 20<br>
+     * - puntiStaminaTotali: 25<br>
+     */
     public Soldato(String nome, char sesso) {
         super(180, 55, 35, 20, 25, nome, sesso);
     }

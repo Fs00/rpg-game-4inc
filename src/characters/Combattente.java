@@ -4,8 +4,17 @@ package ittbuonarroti.rpggame.characters;
  * Classe astratta da cui derivano {@link Soldato} e {@link Mercenario}.
  */
 public abstract class Combattente extends Personaggio implements IAttaccante {
+
+    /**
+     * Booleano che indica se il Combattente intente sferrare
+     * un attacco con potenza raddoppiata rispetto al normale
+     */
     private boolean attaccoCaricato = false;
 
+    /**
+     * Metodo Costruttore<br>
+     * Si limita a chiamare il costruttore di Personaggio, dato che non vi è nessuna operazione speciale da eseguire
+     */
     public Combattente(int puntiVitaTotali, int attacco, int difesa, int velocita, int puntiStaminaTotali, String nome, char sesso) {
         super(puntiVitaTotali, attacco, difesa, velocita, puntiStaminaTotali, nome, sesso);
     }
