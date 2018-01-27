@@ -1,5 +1,7 @@
 package ittbuonarroti.rpggame.characters;
 
+import ittbuonarroti.rpggame.engine.GestionePartita;
+
 /**
  * Rappresenta un'istanza del personaggio Contadino
  */
@@ -36,6 +38,7 @@ public class Contadino extends Personaggio implements IAttaccante {
      * Implementazione di {@link IAttaccante#contrattacca(Personaggio, int)}
      */
     public void contrattacca(Personaggio nemico, int danno) {
+        GestionePartita.stampaMessaggio("Contrattacco!");
         nemico.riceviColpo(this, danno, false);
     }
 

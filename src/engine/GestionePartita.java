@@ -66,7 +66,7 @@ public class GestionePartita {
      * @param indiceGiocatore L'indice del giocatore corrente (1 o 2)
      * @param codiceMossa     Il codice della mossa da effettuare
      */
-    public void faiMossa(int indiceGiocatore, int codiceMossa) {
+    public void faiMossa(int indiceGiocatore, int codiceMossa) throws InterruptedException {
 
         Personaggio giocatoreCorrente, nemico;
         boolean mossaCompletata = false;
@@ -85,6 +85,7 @@ public class GestionePartita {
             case GestionePartita.MOVE_ATTACK:       // Attacca
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
                     ((IAttaccante) giocatoreCorrente).attacca(nemico);
+                    //TODO STAMPA DANNI
                     mossaCompletata = true;
                 } else
                     stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
@@ -92,12 +93,14 @@ public class GestionePartita {
             case GestionePartita.MOVE_GUARD:        // Attiva lo scudo difensivo
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
                     ((IDifesa) giocatoreCorrente).preparaDifesa();
+                    stampaMessaggio(giocatoreCorrente.getNome() + " si sta preparando a difendersi.");
                     mossaCompletata = true;
                 } else
                     stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
             case GestionePartita.MOVE_POWER_UP:     // Prepara l'attacco
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
+                    stampaMessaggio(giocatoreCorrente.getNome() + " si prepara all'attacco.");
                     ((IAttaccante) giocatoreCorrente).caricaAttacco();
                     mossaCompletata = true;
                 } else
@@ -106,8 +109,14 @@ public class GestionePartita {
             case GestionePartita.MOVE_ITEM:
                 throw new NotImplementedException();        // Coming Soon (?)
             case GestionePartita.MOVE_RUN:      // Fugge dallo scontro
-                if (giocatoreCorrente.ritirata(nemico) == true)
+                stampaMessaggio(giocatoreCorrente.getNome() + " sta cercando di scappare...");
+                Thread.sleep(1000);
+                if (giocatoreCorrente.ritirata(nemico) == true){
                     giocatoreFuggito = indiceGiocatore;
+                    stampaMessaggio(giocatoreCorrente.getNome() + " è scappato...");
+                }else
+                    stampaMessaggio("Fuga fallita...");
+
                 mossaCompletata = true;
                 break;
             default:        // Tutti gli altri casi: mossa non valida

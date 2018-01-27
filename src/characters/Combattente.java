@@ -1,5 +1,7 @@
 package ittbuonarroti.rpggame.characters;
 
+import ittbuonarroti.rpggame.engine.GestionePartita;
+
 /**
  * Classe astratta da cui derivano {@link Soldato} e {@link Mercenario}.
  */
@@ -43,6 +45,7 @@ public abstract class Combattente extends Personaggio implements IAttaccante {
      * Implementazione di {@link IAttaccante#contrattacca(Personaggio, int)}
      */
     public void contrattacca(Personaggio nemico, int danno) {
+        GestionePartita.stampaMessaggio("Contrattacco!");
         nemico.riceviColpo(this, danno, false);
     }
 }

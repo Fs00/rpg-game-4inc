@@ -97,6 +97,12 @@ public abstract class Personaggio {
             puntiVita = 0;
         else
             puntiVita += valore;
+
+        //Messaggio
+        if(valore < 0)
+            GestionePartita.stampaMessaggio(this.nome + " subisce " + Math.abs(valore) + " danni!");
+        else
+            GestionePartita.stampaMessaggio(this.nome + " si cura di " + valore + " PV!");
     }
 
     /**
