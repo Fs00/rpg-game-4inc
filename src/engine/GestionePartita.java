@@ -156,6 +156,7 @@ public class GestionePartita {
         if (vincitore != -1)
             return true;
         else {
+            // FIXME: trovare un modo per far incrementare il contatore del turno ogni due mosse anziché una
             contatoreTurno++;
             return false;
         }

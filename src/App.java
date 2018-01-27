@@ -82,10 +82,9 @@ public class App {
         int[] ordineGiocatori = new int[N_PLAYERS];
         String scelta;
 
+        clearConsole();
         while (partita.getVincitore() == -1)      // ciclo esterno: turno giocatore 1 + giocatore 2
         {
-            System.out.println("\nTURNO " + partita.getContatoreTurno());
-
             // Selezione giocatore che incomincia il turno
             int primoGiocatore = partita.giocatorePiuVeloce();
             if (primoGiocatore == 1) {
@@ -98,29 +97,35 @@ public class App {
             }
 
             for (int giocatore : ordineGiocatori) {     // ciclo interno: turno dei singoli giocatori
-                // TODO: pulisci schermo console
+
+                System.out.println("\nTURNO " + partita.getContatoreTurno());
 
                 // Stampa condizioni personaggi
                 for (Personaggio p : personaggi)
                     System.out.println(p.toString());
 
+                // Stampa mosse disponibili
+                System.out.println("\nTURNO DEL GIOCATORE " + giocatore);
+                System.out.println("Mosse disponibili:");
+                System.out.println("F: tenta fuga");
+                if (partita.getPlayerCharacter(giocatore) instanceof IAttaccante) {
+                    System.out.println("A: attacca");
+                    System.out.println("C: caricati per sferrare un attacco potenziato il prossimo turno");
+                }
+                if (partita.getPlayerCharacter(giocatore) instanceof IDifesa)
+                    System.out.println("D: difenditi per subire danni dimezzati il prossimo turno");
+
                 // Scelta mossa
                 while (!sceltaCorretta) {
-                    System.out.println("\nTURNO DEL GIOCATORE " + giocatore);
-                    System.out.println("Mosse disponibili:");
-                    System.out.println("F: tenta fuga");
-                    if (partita.getPlayerCharacter(giocatore) instanceof IAttaccante) {
-                        System.out.println("A: attacca");
-                        System.out.println("C: caricati per sferrare doppi danni il prossimo turno");
-                    }
-                    if (partita.getPlayerCharacter(giocatore) instanceof IDifesa)
-                        System.out.println("D: difenditi per subire danni dimezzati il prossimo turno");
                     System.out.print("Fai la tua mossa: ");
                     scelta = input.nextLine();
 
+                    // Effettua la mossa in base alla scelta e qualora questa fosse corretta pulisci la console
+                    // in modo che il risultato della mossa venga stampato subito dopo la pulizia dell'output
                     switch (scelta) {
                         case "F":
                         case "f":
+                            clearConsole();
                             partita.faiMossa(giocatore, GestionePartita.MOVE_RUN);
                             sceltaCorretta = true;
                             break;
@@ -129,6 +134,7 @@ public class App {
                             if (!(partita.getPlayerCharacter(giocatore) instanceof IAttaccante))
                                 System.out.println("Mossa non disponibile per questo personaggio!");
                             else {
+                                clearConsole();
                                 partita.faiMossa(giocatore, GestionePartita.MOVE_ATTACK);
                                 sceltaCorretta = true;
                             }
@@ -138,6 +144,7 @@ public class App {
                             if (!(partita.getPlayerCharacter(giocatore) instanceof IAttaccante))
                                 System.out.println("Mossa non disponibile per questo personaggio!");
                             else {
+                                clearConsole();
                                 partita.faiMossa(giocatore, GestionePartita.MOVE_POWER_UP);
                                 sceltaCorretta = true;
                             }
@@ -147,6 +154,7 @@ public class App {
                             if (!(partita.getPlayerCharacter(giocatore) instanceof IDifesa))
                                 System.out.println("Mossa non disponibile per questo personaggio!");
                             else {
+                                clearConsole();
                                 partita.faiMossa(giocatore, GestionePartita.MOVE_GUARD);
                                 sceltaCorretta = true;
                             }
@@ -156,11 +164,11 @@ public class App {
                     }
                 }
                 sceltaCorretta = false;
-            }
 
-            // Controlla se, dopo la mossa, la partita è conclusa e in tal caso esci dal ciclo
-            if (partita.controlloPartitaConclusa() == true)
-                break;
+                // Controlla se, dopo la mossa, la partita è conclusa e in tal caso esci dal ciclo
+                if (partita.controlloPartitaConclusa() == true)
+                    break;
+            }
         }
 
         // Stampa vincitore
@@ -169,5 +177,20 @@ public class App {
             System.out.println("Il vincitore è il giocatore " + winner + ", con il personaggio " + partita.getPlayerCharacter(winner).getNome() + "!");
         else
             System.out.println("La partita si è conclusa in parità!");
+    }
+
+    private static void clearConsole() {
+        if (System.getProperty("os.name").contains("Windows")) {    // Il cmd di Windows non supporta i caratteri escape :/
+            try {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            catch (Exception exc) {
+                System.out.println("Errore inatteso durante la pulizia dello schermo della console.");
+            }
+        }
+        else {
+            System.out.println("\033[H\033[2J");
+            System.out.flush();
+        }
     }
 }
