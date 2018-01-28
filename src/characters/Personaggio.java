@@ -211,8 +211,12 @@ public abstract class Personaggio {
         puntiVitaTotali = stats[0] + RNG.randomNumber(-5, 5);
         //ATTACCO
         attacco = stats[1] + RNG.randomNumber(-5, 5);
+        if (attacco < 0)    // evita che il Debole abbia attacco negativo
+            attacco = 0;
         //DIFESA
         difesa = stats[2] + RNG.randomNumber(-5, 5);
+        if (difesa < 0)     // evita che il Debole abbia difesa negativa
+            difesa = 0;
         //VELOCITA'
         velocita = stats[3] + RNG.randomNumber(-5, 5);
         //PS
