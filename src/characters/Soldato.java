@@ -1,5 +1,7 @@
 package ittbuonarroti.rpggame.characters;
 
+import ittbuonarroti.rpggame.engine.GestionePartita;
+
 /**
  * Rappresenta un'istanza del personaggio Soldato
  */
@@ -30,6 +32,7 @@ public class Soldato extends Combattente implements IDifesa {
     @Override
     public void modificaPuntiVita(int valore) {
         if (this.isDef && valore < 0) {
+            GestionePartita.stampaMessaggio("I danni dell'attacco sono stati dimezzati dallo scudo!");
             valore /= 2;
             isDef = false;
         }

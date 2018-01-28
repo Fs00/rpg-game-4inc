@@ -15,10 +15,12 @@ public class GestionePartita {
      * Contiene il riferimento ai due personaggi attualmente in scontro
      */
     private Personaggio player1, player2;
+
     /**
      * Contatore del numero di mossa corrente
      */
     private int contatoreTurno;
+
     /**
      * Indica se la partita si è conclusa o meno:<br>
      * -1: Non Terminata<br>
@@ -26,6 +28,7 @@ public class GestionePartita {
      * 1/2: Ha vinto il giocatore di indice 1/2
      */
     private int vincitore = -1;
+
     /**
      * Indica l'eventuale indice del giocatore fuggito dal terreno di scontro
      * (-1 se nessuno è fuggito)
@@ -82,43 +85,54 @@ public class GestionePartita {
         // attacco, caricaAttacco e preparaDifesa richiedono stamina > 0 per poter essere eseguite
         // La fuga può essere tentata anche con stamina = 0, tuttavia causa decremento di stamina qualora fosse > 0
         switch (codiceMossa) {
-            case GestionePartita.MOVE_ATTACK:       // Attacca
+            // Attacco
+            case GestionePartita.MOVE_ATTACK:
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
+                    stampaMessaggio(giocatoreCorrente.getNome() + " attacca!");
                     ((IAttaccante) giocatoreCorrente).attacca(nemico);
-                    //TODO STAMPA DANNI
                     mossaCompletata = true;
                 } else
                     stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
-            case GestionePartita.MOVE_GUARD:        // Attiva lo scudo difensivo
+
+            // Attivazione dello "scudo difensivo"
+            case GestionePartita.MOVE_GUARD:
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
-                    ((IDifesa) giocatoreCorrente).preparaDifesa();
                     stampaMessaggio(giocatoreCorrente.getNome() + " si sta preparando a difendersi.");
+                    ((IDifesa) giocatoreCorrente).preparaDifesa();
                     mossaCompletata = true;
                 } else
                     stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
-            case GestionePartita.MOVE_POWER_UP:     // Prepara l'attacco
+
+            // Preparazione dell'attacco caricato
+            case GestionePartita.MOVE_POWER_UP:
                 if (giocatoreCorrente.getPuntiStamina() > 0) {
-                    stampaMessaggio(giocatoreCorrente.getNome() + " si prepara all'attacco.");
+                    stampaMessaggio(giocatoreCorrente.getNome() + " si prepara a sferrare un attacco potenziato il prossimo turno.");
                     ((IAttaccante) giocatoreCorrente).caricaAttacco();
                     mossaCompletata = true;
                 } else
                     stampaMessaggio("Non hai abbastanza stamina per effettuare questa mossa!");
                 break;
+
+            // Uso oggetti: Da fare in futuro?
             case GestionePartita.MOVE_ITEM:
-                throw new NotImplementedException();        // Coming Soon (?)
-            case GestionePartita.MOVE_RUN:      // Fugge dallo scontro
+                throw new NotImplementedException();
+
+                // Fuga dallo scontro
+            case GestionePartita.MOVE_RUN:
                 stampaMessaggio(giocatoreCorrente.getNome() + " sta cercando di scappare...");
-                Thread.sleep(1000);
-                if (giocatoreCorrente.ritirata(nemico) == true){
+                Thread.sleep(750);      // pausa ad effetto
+                if (giocatoreCorrente.ritirata(nemico) == true) {
                     giocatoreFuggito = indiceGiocatore;
-                    stampaMessaggio(giocatoreCorrente.getNome() + " è scappato...");
-                }else
-                    stampaMessaggio("Fuga fallita...");
+                    stampaMessaggio(giocatoreCorrente.getNome() + " è riuscito a scappare!");
+                }
+                else
+                    stampaMessaggio("La fuga di " + giocatoreCorrente.getNome() + " non è riuscita!");
 
                 mossaCompletata = true;
                 break;
+
             default:        // Tutti gli altri casi: mossa non valida
                 throw new IllegalArgumentException("Mossa inserita errata!");
         }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
 
-        try{
+        try {
             final int N_PLAYERS = 2;
 
             boolean sceltaCorretta = false;
@@ -178,8 +178,9 @@ public class App {
                 System.out.println("Il vincitore è il giocatore " + winner + ", con il personaggio " + partita.getPlayerCharacter(winner).getNome() + "!");
             else
                 System.out.println("La partita si è conclusa in parità!");
-        }catch (InterruptedException e){
-            //EXCEPTION
+        }
+        catch (InterruptedException e) {    // exception handler per il Thread.sleep() di GestionePartita.faiMossa()
+            System.out.println("Il thread è stato interrotto.");
         }
     }
 

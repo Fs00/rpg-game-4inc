@@ -26,9 +26,10 @@ public class Contadino extends Personaggio implements IAttaccante {
      */
     public void attacca(Personaggio nemico) {
         int danno = getAttacco();
-        // Verifica se nel turno precedente è stato usato caricaAttacco() e in caso affermativo raddoppia il danno
+        // Verifica se nel turno precedente è stato usato caricaAttacco() e in caso affermativo aumenta il danno del 50%
         if (attaccoCaricato) {
-            danno *= 2;
+            GestionePartita.stampaMessaggio("Il suo attacco viene potenziato!");
+            danno *= 1.5;
             attaccoCaricato = false;
         }
         nemico.riceviColpo(this, danno, true);
@@ -38,7 +39,7 @@ public class Contadino extends Personaggio implements IAttaccante {
      * Implementazione di {@link IAttaccante#contrattacca(Personaggio, int)}
      */
     public void contrattacca(Personaggio nemico, int danno) {
-        GestionePartita.stampaMessaggio("Contrattacco!");
+        GestionePartita.stampaMessaggio(getNome() + " contrattacca!");
         nemico.riceviColpo(this, danno, false);
     }
 

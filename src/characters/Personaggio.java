@@ -13,6 +13,7 @@ public abstract class Personaggio {
      * Valore costante massimo che può raggiungere l'attributo puntiVita
      */
     private int puntiVitaTotali;
+
     /**
      * Valore costante massimo che può raggiungere l'attributo puntiStamina
      */
@@ -23,20 +24,24 @@ public abstract class Personaggio {
      * significa che il Personaggio è morto.
      */
     private int puntiVita;
+
     /**
      * Rappresenta
      */
     private int puntiStamina;
+
     /**
      * Rappresenta la velocità del Personaggio.
-     * Questo attributo è utile nel caso di ritirata,
+     * Questo attributo serve a calcolare la probabilità di ritirata e di contrattacco
      */
     private int velocita;
+
     /**
      * Rappresenta la potenza in attacco, cioè la quantità di puntiVita
      * da sottrarre all'avversario
      */
     private int attacco;
+
     /**
      * Rappresenta la resistenza ad un colpo nemico.<br>
      * Al ricevimento di un colpo nemico, questo valore viene sottratto dal valore di attacco
@@ -47,6 +52,7 @@ public abstract class Personaggio {
      * Stringa contenente il nome del Personaggio
      */
     private String nome;
+
     /**
      * Carattere maiuscolo contenente il sesso (M/F) del Personaggio
      */
@@ -54,8 +60,8 @@ public abstract class Personaggio {
 
     /**
      * Metodo Costruttore<br>
-     * I parametri puntiVitaTotali; attacco; difesa; velocita; puntiStaminaTotali sono randomizzati dal metodo
-     * {@link Personaggio#assegnaStatistiche(int[])}
+     * I parametri puntiVitaTotali; attacco; difesa; velocita; puntiStaminaTotali sono randomizzati dal metodo privato
+     * assegnaStatistiche(int[])
      */
     public Personaggio(int puntiVitaTotali, int attacco, int difesa, int velocita, int puntiStaminaTotali, String nome, char sesso) {
         int[] statsDaRandomizzare = {puntiVitaTotali, attacco, difesa, velocita, puntiStaminaTotali};
@@ -66,22 +72,18 @@ public abstract class Personaggio {
 
     /**
      * Fa scappare un personaggio dal terreno di gioco:<br>
-     * - Calcola la probabilità di riuscire a scappare (50 + (VEL personaggio che si vuole ritirare - VEL nemico))
-     * - Genera un numero casuale tra 1 e 100
+     * - Calcola la probabilità di riuscire a scappare (50 + (VEL personaggio che si vuole ritirare - VEL nemico))<br>
+     * - Genera un numero casuale tra 1 e 100<br>
      * Se il numero generato è minore della probabilità, il personaggio riesce a scappare, altrimenti no
      *
      * @param avv Personaggio avversario da cui si sta cercando di scappare
      * @return true se il personaggio riesce a scappare; false altrimenti
      */
     public boolean ritirata(Personaggio avv) {
-        if (50 + (getVelocita() - avv.getVelocita()) < RNG.randomNumber(0, 100)) {
-            GestionePartita.stampaMessaggio("Fuga riuscita!");
+        if (50 + (getVelocita() - avv.getVelocita()) < RNG.randomNumber(0, 100))
             return true;
-        }
-        else {
-            GestionePartita.stampaMessaggio("Fuga fallita!");
+        else
             return false;
-        }
     }
 
     /**
@@ -98,11 +100,11 @@ public abstract class Personaggio {
         else
             puntiVita += valore;
 
-        //Messaggio
+        // Messaggio
         if(valore < 0)
-            GestionePartita.stampaMessaggio(this.nome + " subisce " + Math.abs(valore) + " danni!");
+            GestionePartita.stampaMessaggio(nome + " subisce " + Math.abs(valore) + " punti di danno!");
         else
-            GestionePartita.stampaMessaggio(this.nome + " si cura di " + valore + " PV!");
+            GestionePartita.stampaMessaggio(nome + " recupera " + valore + " PV!");
     }
 
     /**
@@ -221,13 +223,25 @@ public abstract class Personaggio {
     /**
      * Metodo toString()
      *
-     * @return Stato degli attributi della classe e tipo di personaggio (Debole, Contadino, Mercenario, Soldato)
+     * @return Riepilogo breve dei principali attributi della classe e del tipo di personaggio
      */
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + " " + nome + " (" + sesso + ")" +
                 "\n Punti Vita: " + puntiVita + "/" + puntiVitaTotali +
-                "\n Stamina: " + puntiStamina + "/" + puntiStaminaTotali +
-                "\n Velocità: " + velocita;
+                "\n Stamina: " + puntiStamina + "/" + puntiStaminaTotali;
+    }
+
+    /**
+     * Ottiene un riepilogo di tutte le statistiche del personaggio
+     *
+     * @return La stringa da stampare a video
+     */
+    public String ottieniStatistiche() {
+        return "Punti Vita: " + puntiVitaTotali +
+                "\nAttacco: " + attacco +
+                "\nDifesa: " + difesa +
+                "\nVelocità: " + velocita +
+                "\nPunti Stamina: " + puntiStaminaTotali;
     }
 }
