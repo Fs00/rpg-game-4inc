@@ -10,21 +10,36 @@ import java.util.Scanner;
  */
 public class App {
     public static void main(String[] args) {
-
         try {
+
             final int N_PLAYERS = 2;
 
             boolean sceltaCorretta = false;
-            Personaggio[] personaggi = new Personaggio[N_PLAYERS];
+            Personaggio[] personaggi = new Personaggio[N_PLAYERS];  // contiene i personaggi dei giocatori
             Scanner input = new Scanner(System.in);
 
+            // SCELTA DI NOME, SESSO E PERSONAGGIO
             for (int i = 0; i < N_PLAYERS; i++) {
-                String nome, scelta;
+                String nome = null, scelta;
                 char sesso = 0;     // valore placeholder
 
                 // Input del nome
-                System.out.print("\nGiocatore " + (i + 1) + ", come ti chiami? ");
-                nome = input.nextLine();
+                while (!sceltaCorretta) {
+                    System.out.print("\nGiocatore " + (i + 1) + ", come ti chiami? ");
+                    nome = input.nextLine();
+
+                    // Controllo che nessuno degli altri giocatori abbia lo stesso nome
+                    sceltaCorretta = true;
+                    int cnt = 0;
+                    while (cnt < i && sceltaCorretta) {
+                        if (nome.equals(personaggi[cnt].getNome())) {
+                            sceltaCorretta = false;
+                            System.out.print("Uno degli altri giocatori ha già questo nome!");
+                        }
+                        cnt++;
+                    }
+                }
+                sceltaCorretta = false;
 
                 // Scelta del sesso
                 while (!sceltaCorretta) {
@@ -76,11 +91,15 @@ public class App {
                     }
                 }
                 sceltaCorretta = false;
+
+                // Stampa statistiche randomizzate
+                System.out.println("\nEcco le statistiche del tuo personaggio:");
+                System.out.println(personaggi[i].ottieniStatistiche());
             }
 
             // INIZIO PARTITA
             GestionePartita partita = new GestionePartita(personaggi);
-            int[] ordineGiocatori = new int[N_PLAYERS];
+            int[] ordineGiocatori = new int[N_PLAYERS];     // contiene gli indici dei giocatori (1 o 2) in ordine di turno
             String scelta;
 
             clearConsole();
@@ -106,14 +125,14 @@ public class App {
                         System.out.println(p.toString());
 
                     // Stampa mosse disponibili
-                    System.out.println("\nTURNO DEL GIOCATORE " + giocatore);
+                    System.out.println("\nTURNO DEL GIOCATORE " + personaggi[giocatore - 1].getNome().toUpperCase());
                     System.out.println("Mosse disponibili:");
                     System.out.println("F: tenta fuga");
-                    if (partita.getPlayerCharacter(giocatore) instanceof IAttaccante) {
+                    if (personaggi[giocatore - 1] instanceof IAttaccante) {
                         System.out.println("A: attacca");
                         System.out.println("C: caricati per sferrare un attacco potenziato il prossimo turno");
                     }
-                    if (partita.getPlayerCharacter(giocatore) instanceof IDifesa)
+                    if (personaggi[giocatore - 1] instanceof IDifesa)
                         System.out.println("D: difenditi per subire danni dimezzati il prossimo turno");
 
                     // Scelta mossa
@@ -124,15 +143,18 @@ public class App {
                         // Effettua la mossa in base alla scelta e qualora questa fosse corretta pulisci la console
                         // in modo che il risultato della mossa venga stampato subito dopo la pulizia dell'output
                         switch (scelta) {
+                            // Fuga
                             case "F":
                             case "f":
                                 clearConsole();
                                 partita.faiMossa(giocatore, GestionePartita.MOVE_RUN);
                                 sceltaCorretta = true;
                                 break;
+
+                            // Attacco
                             case "A":
                             case "a":
-                                if (!(partita.getPlayerCharacter(giocatore) instanceof IAttaccante))
+                                if (!(personaggi[giocatore - 1] instanceof IAttaccante))
                                     System.out.println("Mossa non disponibile per questo personaggio!");
                                 else {
                                     clearConsole();
@@ -140,9 +162,11 @@ public class App {
                                     sceltaCorretta = true;
                                 }
                                 break;
+
+                            // Preparazione dell'attacco caricato
                             case "C":
                             case "c":
-                                if (!(partita.getPlayerCharacter(giocatore) instanceof IAttaccante))
+                                if (!(personaggi[giocatore - 1] instanceof IAttaccante))
                                     System.out.println("Mossa non disponibile per questo personaggio!");
                                 else {
                                     clearConsole();
@@ -150,9 +174,11 @@ public class App {
                                     sceltaCorretta = true;
                                 }
                                 break;
+
+                            // Attivazione dello "scudo difensivo"
                             case "D":
                             case "d":
-                                if (!(partita.getPlayerCharacter(giocatore) instanceof IDifesa))
+                                if (!(personaggi[giocatore - 1] instanceof IDifesa))
                                     System.out.println("Mossa non disponibile per questo personaggio!");
                                 else {
                                     clearConsole();
@@ -160,6 +186,7 @@ public class App {
                                     sceltaCorretta = true;
                                 }
                                 break;
+
                             default:
                                 System.out.println("Scelta errata!");
                         }
@@ -175,7 +202,7 @@ public class App {
             // Stampa vincitore
             int winner = partita.getVincitore();
             if (winner > 0)
-                System.out.println("Il vincitore è il giocatore " + winner + ", con il personaggio " + partita.getPlayerCharacter(winner).getNome() + "!");
+                System.out.println("Il vincitore è il giocatore " + winner + ", con il personaggio " + personaggi[winner - 1].getNome() + "!");
             else
                 System.out.println("La partita si è conclusa in parità!");
         }

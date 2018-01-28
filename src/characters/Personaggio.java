@@ -101,8 +101,11 @@ public abstract class Personaggio {
             puntiVita += valore;
 
         // Messaggio
-        if(valore < 0)
+        if (valore < 0) {
             GestionePartita.stampaMessaggio(nome + " subisce " + Math.abs(valore) + " punti di danno!");
+            if (puntiVita == 0)
+                GestionePartita.stampaMessaggio(nome + " è morto!");
+        }
         else
             GestionePartita.stampaMessaggio(nome + " recupera " + valore + " PV!");
     }
@@ -238,10 +241,10 @@ public abstract class Personaggio {
      * @return La stringa da stampare a video
      */
     public String ottieniStatistiche() {
-        return "Punti Vita: " + puntiVitaTotali +
-                "\nAttacco: " + attacco +
-                "\nDifesa: " + difesa +
-                "\nVelocità: " + velocita +
-                "\nPunti Stamina: " + puntiStaminaTotali;
+        return " Punti Vita: " + puntiVitaTotali +
+                "\n Attacco: " + attacco +
+                "\n Difesa: " + difesa +
+                "\n Velocità: " + velocita +
+                "\n Punti Stamina: " + puntiStaminaTotali;
     }
 }

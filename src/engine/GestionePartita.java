@@ -159,6 +159,7 @@ public class GestionePartita {
             vincitore = 1;
             // Controlla se puntiStamina di entrambi i giocatori sono a 0 (in tal caso vince chi ha più puntiVita)
         else if (player1.getPuntiStamina() == 0 && player2.getPuntiStamina() == 0) {
+            GestionePartita.stampaMessaggio("Entrambi i giocatori non hanno più stamina! La partita termina.");
             if (player1.getPuntiVita() > player2.getPuntiVita())
                 vincitore = 1;
             else if (player2.getPuntiVita() > player1.getPuntiVita())
@@ -204,21 +205,22 @@ public class GestionePartita {
         }
     }
 
-    /**
+    /*
      * Ottiene l'oggetto Personaggio legato al giocatore specificato
      *
      * @param indice Indice del giocatore (1 o 2)
      * @return L'oggetto del giocatore richiesto
      * @throws IllegalArgumentException se l'indice non è 1 o 2
      */
-    public Personaggio getPlayerCharacter (int indice) {
+    // POTREBBE SERVIRE PER LA GUI? PER IL MOMENTO LO LASCIAMO QUA
+    /*public Personaggio getPlayerCharacter (int indice) {
         if (indice == 1)
             return player1;
         else if (indice == 2)
             return player2;
         else
             throw new IllegalArgumentException("L'indice del giocatore non è valido.");
-    }
+    }*/
 
     public int getVincitore () {
         return vincitore;
