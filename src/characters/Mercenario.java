@@ -17,4 +17,14 @@ public class Mercenario extends Combattente {
     public Mercenario(String nome, char sesso) {
         super(200, 60, 25, 30, 22, nome, sesso);
     }
+
+    /**
+     * Metodo statico che restituisce una descrizione del tipo di personaggio
+     *
+     * @return La stringa da stampare a video
+     */
+    public static String getDescrizione() {
+        return "Questo bruto muscoloso ha sulle spalle anni di duro allenamento, che lo hanno reso tremendamente forte e resistente. " +
+                "Predilige un equipaggiamento leggero, per prevalere sui suoi diretti avversari con l'agilità piuttosto che con la difesa.";
+    }
 }

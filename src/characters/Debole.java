@@ -17,4 +17,14 @@ public class Debole extends Personaggio {
     public Debole (String nome, char sesso) {
         super(50, 0, 0, 40, 5, nome, sesso);
     }
+
+    /**
+     * Metodo statico che restituisce una descrizione del tipo di personaggio
+     *
+     * @return La stringa da stampare a video
+     */
+    public static String getDescrizione() {
+        return "Un normale abitante, senza nulla di speciale. È praticamente incapace di combattere, " +
+                "tuttavia a svignarsela se la cava tutto sommato non male.";
+    }
 }
