@@ -1,8 +1,6 @@
 package ittbuonarroti.rpggame.engine;
 
-import ittbuonarroti.rpggame.characters.IAttaccante;
-import ittbuonarroti.rpggame.characters.IDifesa;
-import ittbuonarroti.rpggame.characters.Personaggio;
+import ittbuonarroti.rpggame.characters.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -140,6 +138,14 @@ public class GestionePartita {
         // Se la mossa è stata effettuata correttamente, decrementa i puntiStamina di 1
         if (mossaCompletata)
             giocatoreCorrente.decrementaStamina(1);
+
+        // Se il Soldato aveva attivato la modalità difesa ma il suo nemico non ha attaccato, disabilita
+        // questa modalità ed informa il giocatore che la sua mossa non è servita
+        if (nemico instanceof Soldato && ((Soldato) nemico).getIsDef() == true) {
+            ((Soldato) nemico).disabilitaIsDef();
+            stampaMessaggio(giocatoreCorrente.getNome() + " non ha attaccato in questo turno. " +
+                    nemico.getNome() +" ha quindi sprecato la modalità difesa!");
+        }
     }
 
     /**

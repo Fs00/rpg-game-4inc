@@ -49,4 +49,14 @@ public abstract class Combattente extends Personaggio implements IAttaccante {
         GestionePartita.stampaMessaggio(getNome() + " contrattacca!");
         nemico.riceviColpo(this, danno, false);
     }
+
+    /* Metodi Get/Set per attaccoCaricato */
+
+    public boolean getAttaccoCaricato () {
+        return attaccoCaricato;
+    }
+
+    public void setAttaccoCaricato (boolean attaccoCaricato) {
+        this.attaccoCaricato = attaccoCaricato;
+    }
 }

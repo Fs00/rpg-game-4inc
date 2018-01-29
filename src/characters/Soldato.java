@@ -40,10 +40,24 @@ public class Soldato extends Combattente implements IDifesa {
     }
 
     /**
-     * Implementazione di {@link IDifesa#preparaDifesa()}
+     * Implementazione di {@link IDifesa#preparaDifesa()}<br>
+     * Se nel turno precedente era stato attivato l'attacco potenziato, lo disattiva ed informa l'utente dello sbaglio
      */
     public void preparaDifesa() {
+        if (getAttaccoCaricato() == true) {
+            setAttaccoCaricato(false);
+            GestionePartita.stampaMessaggio(" ATTENZIONE: " + getNome() + " ha perso la possibilità di sferrare un attacco potenziato," +
+                    " come specificato nel turno precedente.");
+        }
         isDef = true;
+    }
+
+    public void disabilitaIsDef() {
+        isDef = false;
+    }
+
+    public boolean getIsDef() {
+        return isDef;
     }
 
     /**
