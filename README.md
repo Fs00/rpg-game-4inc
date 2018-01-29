@@ -1,4 +1,4 @@
-# rpg-game-4inc
+# _Swords & Pitchforks_ RPG game
 Didactic and highly experimental Java CLI RPG game made by a bunch of IT students.
 
 ## How to add it to IntelliJ
