@@ -26,7 +26,9 @@ public abstract class Personaggio {
     private int puntiVita;
 
     /**
-     * Rappresenta
+     * Rappresenta la resistenza del Personaggio.<br>
+     * Per ogni mossa eseguita, questo valore viene decrementato di una unità.
+     * Se arriva a 0, il Personaggio non può più fare nulla.
      */
     private int puntiStamina;
 
