@@ -17,13 +17,13 @@ public class Soldato extends Combattente implements IDifesa {
      * Metodo Costruttore<br>
      * Inizializza le statistiche in base ai seguenti parametri (poi randomizzati da {@link Personaggio#assegnaStatistiche}):<br>
      * - puntiVitaTotali: 180<br>
-     * - attacco: 55<br>
-     * - difesa: 35<br>
+     * - attacco: 45<br>
+     * - difesa: 30<br>
      * - velocita: 20<br>
      * - puntiStaminaTotali: 25<br>
      */
     public Soldato(String nome, char sesso) {
-        super(180, 55, 35, 20, 25, nome, sesso);
+        super(180, 45, 30, 20, 25, nome, sesso);
     }
 
     /**

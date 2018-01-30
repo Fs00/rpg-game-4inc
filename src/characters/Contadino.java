@@ -12,13 +12,13 @@ public class Contadino extends Personaggio implements IAttaccante {
      * Metodo Costruttore<br>
      * Inizializza le statistiche in base ai seguenti parametri (poi randomizzati da {@link Personaggio#assegnaStatistiche}):<br>
      * - puntiVitaTotali: 100<br>
-     * - attacco: 35<br>
-     * - difesa: 10<br>
+     * - attacco: 25<br>
+     * - difesa: 5<br>
      * - velocita: 50<br>
      * - puntiStaminaTotali: 15<br>
      */
     public Contadino(String nome, char sesso) {
-        super(100, 35, 10, 50, 15, nome, sesso);
+        super(100, 25, 5, 50, 15, nome, sesso);
     }
 
     /**

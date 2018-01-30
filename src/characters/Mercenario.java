@@ -9,13 +9,13 @@ public class Mercenario extends Combattente {
      * Metodo Costruttore<br>
      * Inizializza le statistiche in base ai seguenti parametri (poi randomizzati da {@link Personaggio#assegnaStatistiche}):<br>
      * - puntiVitaTotali: 200<br>
-     * - attacco: 60<br>
-     * - difesa: 25<br>
+     * - attacco: 50<br>
+     * - difesa: 20<br>
      * - velocita: 30<br>
      * - puntiStaminaTotali: 22<br>
      */
     public Mercenario(String nome, char sesso) {
-        super(200, 60, 25, 30, 22, nome, sesso);
+        super(200, 50, 20, 30, 22, nome, sesso);
     }
 
     /**
