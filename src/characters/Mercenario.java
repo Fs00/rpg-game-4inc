@@ -19,12 +19,13 @@ public class Mercenario extends Combattente {
     }
 
     /**
-     * Metodo statico che restituisce una descrizione del tipo di personaggio
+     * Metodo statico che restituisce una descrizione del tipo di personaggio e le statistiche di base
      *
      * @return La stringa da stampare a video
      */
     public static String getDescrizione() {
         return "Questo bruto muscoloso ha sulle spalle anni di duro allenamento, che lo hanno reso tremendamente forte e resistente. " +
-                "Predilige un equipaggiamento leggero, per prevalere sui suoi diretti avversari con l'agilità piuttosto che con la difesa.";
+                "Predilige un equipaggiamento leggero, per prevalere sui suoi diretti avversari con l'agilità piuttosto che con la difesa." +
+                "\n Statistiche di base: PV 200, ATK 50, DEF 20, VEL 30, STM 22";
     }
 }

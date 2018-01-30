@@ -145,7 +145,7 @@ public class GestionePartita {
         if (nemico instanceof Soldato && ((Soldato) nemico).getGuardStatus() == true) {
             ((Soldato) nemico).disabilitaGuard();
             stampaMessaggio(giocatoreCorrente.getNome() + " non ha attaccato in questo turno. " +
-                    nemico.getNome() +" ha quindi sprecato la modalità difesa!");
+                    nemico.getNome() + " ha quindi sprecato la modalità difesa!");
         }
     }
 

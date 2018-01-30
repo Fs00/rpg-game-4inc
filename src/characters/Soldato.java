@@ -61,12 +61,13 @@ public class Soldato extends Combattente implements IDifesa {
     }
 
     /**
-     * Metodo statico che restituisce una descrizione del tipo di personaggio
+     * Metodo statico che restituisce una descrizione del tipo di personaggio e le statistiche di base
      *
      * @return La stringa da stampare a video
      */
     public static String getDescrizione() {
         return "Un veterano dell'esercito. Il grosso scudo e la pesante armatura che porta con sé non lo aiutano certo " +
-                "ad essere veloce, ma contribuiscono di molto a renderlo uno dei guerrieri più resistenti in assoluto.";
+                "ad essere veloce, ma contribuiscono di molto a renderlo uno dei guerrieri più resistenti in assoluto." +
+                "\n Statistiche di base: PV 180, ATK 45, DEF 30, VEL 20, STM 25";
     }
 }

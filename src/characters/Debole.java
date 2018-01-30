@@ -19,12 +19,13 @@ public class Debole extends Personaggio {
     }
 
     /**
-     * Metodo statico che restituisce una descrizione del tipo di personaggio
+     * Metodo statico che restituisce una descrizione del tipo di personaggio e le statistiche di base
      *
      * @return La stringa da stampare a video
      */
     public static String getDescrizione() {
         return "Un normale abitante, senza nulla di speciale. È praticamente incapace di combattere, " +
-                "tuttavia a svignarsela se la cava tutto sommato non male.";
+                "tuttavia a svignarsela se la cava tutto sommato non male." +
+                "\n Statistiche di base: PV 50, ATK 0, DEF 0, VEL 40, STM 5";
     }
 }

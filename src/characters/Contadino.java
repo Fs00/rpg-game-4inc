@@ -51,13 +51,14 @@ public class Contadino extends Personaggio implements IAttaccante {
     }
 
     /**
-     * Metodo statico che restituisce una descrizione del tipo di personaggio
+     * Metodo statico che restituisce una descrizione del tipo di personaggio e le statistiche di base
      *
      * @return La stringa da stampare a video
      */
     public static String getDescrizione() {
         return "Capo di una tradizionale famiglia contadina, caratterizzato da un grande spirito di sopravvivenza. " +
                 "L'assenza di armature lo rende piuttosto agile, anche se poi è tutt'altro che un gran combattente. " +
-                "Però, a dirla tutta, il fatto di essere sottovalutati da chi la guerra la fa di mestiere può dare qualche vantaggio...";
+                "Però, a dirla tutta, il fatto di essere sottovalutati da chi la guerra la fa di mestiere può dare qualche vantaggio..." +
+                "\n Statistiche di base: PV 100, ATK 25, DEF 5, VEL 50, STM 15";
     }
 }
