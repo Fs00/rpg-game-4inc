@@ -141,8 +141,8 @@ public class GestionePartita {
 
         // Se il Soldato aveva attivato la modalità difesa ma il suo nemico non ha attaccato, disabilita
         // questa modalità ed informa il giocatore che la sua mossa non è servita
-        if (nemico instanceof Soldato && ((Soldato) nemico).getIsDef() == true) {
-            ((Soldato) nemico).disabilitaIsDef();
+        if (nemico instanceof Soldato && ((Soldato) nemico).getGuardStatus() == true) {
+            ((Soldato) nemico).disabilitaGuard();
             stampaMessaggio(giocatoreCorrente.getNome() + " non ha attaccato in questo turno. " +
                     nemico.getNome() +" ha quindi sprecato la modalità difesa!");
         }

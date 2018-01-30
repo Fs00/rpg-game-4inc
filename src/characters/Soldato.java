@@ -11,7 +11,7 @@ public class Soldato extends Combattente implements IDifesa {
      * Booleano che indica se il Soldato ha attivato (true)
      * lo scudo che dimezza gli attacchi subiti
      */
-    private boolean isDef = false;
+    private boolean guard = false;
 
     /**
      * Metodo Costruttore<br>
@@ -31,10 +31,10 @@ public class Soldato extends Combattente implements IDifesa {
      */
     @Override
     public void modificaPuntiVita(int valore) {
-        if (this.isDef && valore < 0) {
+        if (this.guard && valore < 0) {
             GestionePartita.stampaMessaggio("I danni dell'attacco sono stati dimezzati dallo scudo!");
             valore /= 2;
-            isDef = false;
+            guard = false;
         }
         super.modificaPuntiVita(valore);
     }
@@ -49,15 +49,15 @@ public class Soldato extends Combattente implements IDifesa {
             GestionePartita.stampaMessaggio(" ATTENZIONE: " + getNome() + " ha perso la possibilità di sferrare un attacco potenziato," +
                     " come specificato nel turno precedente.");
         }
-        isDef = true;
+        guard = true;
     }
 
-    public void disabilitaIsDef() {
-        isDef = false;
+    public void disabilitaGuard() {
+        guard = false;
     }
 
-    public boolean getIsDef() {
-        return isDef;
+    public boolean getGuardStatus() {
+        return guard;
     }
 
     /**
