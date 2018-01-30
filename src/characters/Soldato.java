@@ -41,7 +41,7 @@ public class Soldato extends Combattente implements IDifesa {
 
     /**
      * Implementazione di {@link IDifesa#preparaDifesa()}<br>
-     * Se nel turno precedente era stato attivato l'attacco potenziato, lo disattiva ed informa l'utente dello sbaglio
+     * Se nel turno precedente era stato attivato l'attacco potenziato, lo disattiva ed informa l'utente dell'errore<br>
      */
     public void preparaDifesa() {
         if (getAttaccoCaricato() == true) {

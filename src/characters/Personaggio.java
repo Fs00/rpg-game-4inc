@@ -20,7 +20,7 @@ public abstract class Personaggio {
     private int puntiStaminaTotali;
 
     /**
-     * Rappresenta la vita del Personaggio. Se il valore è <= a 0,
+     * Rappresenta la vita del Personaggio. Se il valore è minore o uguale a 0,
      * significa che il Personaggio è morto.
      */
     private int puntiVita;

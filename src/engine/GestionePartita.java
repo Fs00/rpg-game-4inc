@@ -21,9 +21,9 @@ public class GestionePartita {
 
     /**
      * Indica se la partita si è conclusa o meno:<br>
-     * -1: Non Terminata<br>
-     * 0: Pareggio<br>
-     * 1/2: Ha vinto il giocatore di indice 1/2
+     * -1:    Non Terminata<br>
+     * 0:     Pareggio<br>
+     * 1 o 2: Ha vinto il giocatore di indice 1/2
      */
     private int vincitore = -1;
 
@@ -33,12 +33,12 @@ public class GestionePartita {
      */
     private int giocatoreFuggito = -1;
 
-    // CODICI MOSSE
+    // CODICI per le MOSSE
     public final static int MOVE_ATTACK = 1;
     public final static int MOVE_RUN = 2;
     public final static int MOVE_POWER_UP = 3;
     public final static int MOVE_GUARD = 4;
-    public final static int MOVE_ITEM = 5;     // unused
+    public final static int MOVE_ITEM = 5;     // Per ora non usato
 
 
     /**
@@ -117,7 +117,7 @@ public class GestionePartita {
             case GestionePartita.MOVE_ITEM:
                 throw new NotImplementedException();
 
-                // Fuga dallo scontro
+            // Fuga dallo scontro
             case GestionePartita.MOVE_RUN:
                 stampaMessaggio(giocatoreCorrente.getNome() + " sta cercando di scappare...");
                 Thread.sleep(750);      // pausa ad effetto
@@ -131,7 +131,8 @@ public class GestionePartita {
                 mossaCompletata = true;
                 break;
 
-            default:        // Tutti gli altri casi: mossa non valida
+            // Tutti gli altri casi: mossa non valida
+            default:
                 throw new IllegalArgumentException("Mossa inserita errata!");
         }
 

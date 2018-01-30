@@ -66,10 +66,10 @@ public class App {
 
                     // Scelta del personaggio
                     System.out.println("\nScegli il tuo personaggio:");
-                    System.out.println("DEBOLE (D)\n" + Debole.getDescrizione() + "\n" + "Statistiche di base: PV 50, ATK 0, DEF 0, VEL 40, STM 5");
-                    System.out.println("CONTADINO (C)\n" + Contadino.getDescrizione() + "\n" + "Statistiche di base: PV 100, ATK 35, DEF 10, VEL 50, STM 15");
-                    System.out.println("SOLDATO (S)\n" + Soldato.getDescrizione() + "\n" + "Statistiche di base: PV 180, ATK 55, DEF 35, VEL 20, STM 25");
-                    System.out.println("MERCENARIO (M)\n" + Mercenario.getDescrizione() + "\n" + "Statistiche di base: PV 200, ATK 60, DEF 25, VEL 30, STM 22");
+                    System.out.println("DEBOLE (D)\n " + Debole.getDescrizione() + "\n " + "Statistiche di base: PV 50, ATK 0, DEF 0, VEL 40, STM 5");
+                    System.out.println("CONTADINO (C)\n " + Contadino.getDescrizione() + "\n " + "Statistiche di base: PV 100, ATK 35, DEF 10, VEL 50, STM 15");
+                    System.out.println("SOLDATO (S)\n " + Soldato.getDescrizione() + "\n " + "Statistiche di base: PV 180, ATK 55, DEF 35, VEL 20, STM 25");
+                    System.out.println("MERCENARIO (M)\n " + Mercenario.getDescrizione() + "\n " + "Statistiche di base: PV 200, ATK 60, DEF 25, VEL 30, STM 22");
 
                     while (!sceltaCorretta) {
                         System.out.print("Fai la tua scelta: ");
