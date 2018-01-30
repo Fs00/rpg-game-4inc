@@ -1,4 +1,4 @@
 /**
- * Contiene tutta la logica per la gestione della partita
+ * Contiene la logica di la gestione della partita
  */
 package ittbuonarroti.rpggame.engine;

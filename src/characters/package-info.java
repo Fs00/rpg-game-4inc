@@ -1,4 +1,4 @@
 /**
- * Contiene il codice di tutti i personaggi previsti nel gioco
+ * Contiene il codice di tutti i personaggi del gioco
  */
 package ittbuonarroti.rpggame.characters;

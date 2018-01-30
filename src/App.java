@@ -6,9 +6,12 @@ import ittbuonarroti.rpggame.engine.GestionePartita;
 import java.util.Scanner;
 
 /**
- * Classe che contiene il metodo Main
+ * Classe per la gestione dell'interfaccia a riga di comando (CLI)
  */
 public class App {
+    /**
+     * Metodo Main (eseguito all'avvio dell'applicazione)
+     */
     public static void main(String[] args) {
         try {
 
@@ -232,6 +235,10 @@ public class App {
         }
     }
 
+    /**
+     * Pulisce l'output della console.<br>
+     * A seconda del SO, vengono usati metodi differenti
+     */
     private static void clearConsole() {
         if (System.getProperty("os.name").contains("Windows")) {    // Il cmd di Windows non supporta i caratteri escape :/
             try {
